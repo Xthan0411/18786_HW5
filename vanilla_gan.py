@@ -10,6 +10,7 @@
 #       python vanilla_gan.py
 
 import argparse
+import math  # 兼容 numpy>=2.0: np.math 已被移除, 改用标准库 math
 import os
 
 import imageio
@@ -70,7 +71,7 @@ def create_image_grid(array, ncols=None):
 
     if not ncols:
         ncols = int(np.sqrt(num_images))
-    nrows = int(np.math.floor(num_images / float(ncols)))
+    nrows = int(math.floor(num_images / float(ncols)))  # np.math 已废弃, 改用 math.floor
     result = np.zeros(
         (cell_h * nrows, cell_w * ncols, channels),
         dtype=array.dtype
