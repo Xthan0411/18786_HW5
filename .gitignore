@@ -1,0 +1,7 @@
+output/                 
+checkpoints_vanilla/                                                                                               
+*.pkl               
+*.pyc                                                                                                              
+__pycache__/                                              
+log_*.txt   
+.DS_Store
