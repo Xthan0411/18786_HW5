@@ -10,7 +10,7 @@
 #       python vanilla_gan.py
 
 import argparse
-import math  # 兼容 numpy>=2.0: np.math 已被移除, 改用标准库 math
+import math  # numpy>=2.0 removed np.math, use stdlib math instead
 import os
 
 import imageio
@@ -71,7 +71,7 @@ def create_image_grid(array, ncols=None):
 
     if not ncols:
         ncols = int(np.sqrt(num_images))
-    nrows = int(math.floor(num_images / float(ncols)))  # np.math 已废弃, 改用 math.floor
+    nrows = int(math.floor(num_images / float(ncols)))
     result = np.zeros(
         (cell_h * nrows, cell_w * ncols, channels),
         dtype=array.dtype
@@ -166,23 +166,17 @@ def training_loop(train_dataloader, opts):
             real_images = utils.to_var(real_images)
 
             # TRAIN THE DISCRIMINATOR
-            # 1. 计算判别器对真实图像的损失
-            # 使用 LSGAN 风格的 MSE: 希望 D(real) 接近 1
-            # 取 0.5 * E[(D(x) - 1)^2]
+            # LSGAN-style MSE: push D(real) toward 1.
             D_real_out = D(real_images)
             D_real_loss = 0.5 * torch.mean((D_real_out - 1) ** 2)
 
-            # 2. 采样噪声 z ~ U(-1, 1), 形状为 (B, noise_size, 1, 1)
             noise = sample_noise(real_images.size(0), opts.noise_size)
 
-            # 3. 用生成器由噪声生成假图像 G(z)
             fake_images = G(noise)
 
-            # 4. 计算判别器在假图像上的损失
-            # 注意: 训练 D 时需要 detach, 阻止梯度流向 G
+            # Detach so gradients do not flow back to G while updating D.
             D_fake_out = D(fake_images.detach())
             D_fake_loss = 0.5 * torch.mean(D_fake_out ** 2)
-            # D 的总损失为 real 和 fake 两部分的和
             D_total_loss = D_real_loss + D_fake_loss
 
             # update the discriminator D
@@ -191,13 +185,12 @@ def training_loop(train_dataloader, opts):
             d_optimizer.step()
 
             # TRAIN THE GENERATOR
-            # 1. 重新采样噪声 (按 Algorithm 1 第 6 行要求重新采样)
+            # Re-sample noise (Algorithm 1 line 6 uses fresh z for the G step).
             noise = sample_noise(real_images.size(0), opts.noise_size)
 
-            # 2. 由噪声生成假图像
             fake_images = G(noise)
 
-            # 3. 计算生成器损失: 希望 D(G(z)) 接近 1, 即欺骗判别器
+            # G tries to make D(G(z)) approach 1 (fool the discriminator).
             G_loss = 0.5 * torch.mean((D(fake_images) - 1) ** 2)
 
             # update the generator G

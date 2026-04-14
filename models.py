@@ -78,35 +78,26 @@ class DCGenerator(nn.Module):
         ##   FILL THIS IN: CREATE ARCHITECTURE   ##
         ###########################################
 
-        # up_conv1: 将 1x1 的 noise 向量直接通过卷积扩展为 4x4 特征图
-        # 输入 noise_size x 1 x 1 -> 256 x 4 x 4
-        # 由于输入空间尺寸为 1x1, 这里不使用 Upsample, 而是直接用 Conv2d
-        # kernel=4, stride=1, padding=3 时: out = 1 + 2*3 - 4 + 1 = 4
         self.up_conv1 = conv(
             in_channels=noise_size, out_channels=conv_dim * 8,
             kernel_size=4, stride=1, padding=3,
             norm='instance', activ='relu'
         )
-        # up_conv2: 4x4 -> 8x8, 通道 256 -> 128
         self.up_conv2 = up_conv(
             in_channels=conv_dim * 8, out_channels=conv_dim * 4,
             kernel_size=3, stride=1, padding=1,
             scale_factor=2, norm='instance', activ='relu'
         )
-        # up_conv3: 8x8 -> 16x16, 通道 128 -> 64
         self.up_conv3 = up_conv(
             in_channels=conv_dim * 4, out_channels=conv_dim * 2,
             kernel_size=3, stride=1, padding=1,
             scale_factor=2, norm='instance', activ='relu'
         )
-        # up_conv4: 16x16 -> 32x32, 通道 64 -> 32
         self.up_conv4 = up_conv(
             in_channels=conv_dim * 2, out_channels=conv_dim,
             kernel_size=3, stride=1, padding=1,
             scale_factor=2, norm='instance', activ='relu'
         )
-        # up_conv5: 32x32 -> 64x64, 通道 32 -> 3 (RGB)
-        # 最后一层不使用 normalization, 使用 tanh 将输出限制到 [-1, 1]
         self.up_conv5 = up_conv(
             in_channels=conv_dim, out_channels=3,
             kernel_size=3, stride=1, padding=1,
@@ -129,12 +120,11 @@ class DCGenerator(nn.Module):
         ##   FILL THIS IN: FORWARD PASS   ##
         ###########################################
 
-        # 按顺序将 noise 依次通过 5 层上采样卷积块, 逐步放大到 64x64 的图像
-        out = self.up_conv1(z)   # -> B x 256 x 4 x 4
-        out = self.up_conv2(out)  # -> B x 128 x 8 x 8
-        out = self.up_conv3(out)  # -> B x 64 x 16 x 16
-        out = self.up_conv4(out)  # -> B x 32 x 32 x 32
-        out = self.up_conv5(out)  # -> B x 3 x 64 x 64
+        out = self.up_conv1(z)
+        out = self.up_conv2(out)
+        out = self.up_conv3(out)
+        out = self.up_conv4(out)
+        out = self.up_conv5(out)
         return out
 
 
@@ -158,16 +148,10 @@ class DCDiscriminator(nn.Module):
 
     def __init__(self, conv_dim=64, norm='instance'):
         super().__init__()
-        # conv1: 3x64x64 -> 32x32x32 (已提供)
         self.conv1 = conv(3, 32, 4, 2, 1, norm, False, 'relu')
-        # conv2: 32x32x32 -> 64x16x16, kernel=4, stride=2, padding=1 下采样 2 倍
         self.conv2 = conv(32, 64, 4, 2, 1, norm, False, 'relu')
-        # conv3: 64x16x16 -> 128x8x8
         self.conv3 = conv(64, 128, 4, 2, 1, norm, False, 'relu')
-        # conv4: 128x8x8 -> 256x4x4
         self.conv4 = conv(128, 256, 4, 2, 1, norm, False, 'relu')
-        # conv5: 256x4x4 -> 1x1x1, 输出判别器的 logit
-        # kernel=4, stride=1, padding=0 时 4x4 卷积正好得到 1x1, 且不使用 norm/激活
         self.conv5 = conv(256, 1, 4, 1, 0, norm=None, activ=None)
 
     def forward(self, x):

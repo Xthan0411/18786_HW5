@@ -1,0 +1,754 @@
+2026-04-14 01:31:47.862162: I tensorflow/core/util/port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2026-04-14 01:31:47.870546: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:467] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+E0000 00:00:1776130307.880410   18433 cuda_dnn.cc:8579] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+E0000 00:00:1776130307.883675   18433 cuda_blas.cc:1407] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+W0000 00:00:1776130307.891977   18433 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1776130307.891990   18433 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1776130307.891992   18433 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1776130307.891993   18433 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+2026-04-14 01:31:47.894414: I tensorflow/core/platform/cpu_feature_guard.cc:210] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F AVX512_VNNI AVX512_BF16 AVX_VNNI FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Namespace(variant='lsgan', image_size=64, conv_dim=32, noise_size=100, num_epochs=500, batch_size=16, num_workers=2, lr=0.0002, beta1=0.5, beta2=0.999, n_critic=5, lambda_gp=10.0, data='cat/grumpifyBprocessed', data_preprocess='advanced', ext='*.png', checkpoint_dir='checkpoints/lsgan', sample_dir='output/lsgan/grumpifyBprocessed_advanced', log_step=10, sample_every=200, checkpoint_every=400)
+data/cat/grumpifyBprocessed/*.png
+204
+Models moved to GPU.
+                    G                  
+LSGANGenerator(
+  (up_conv1): Sequential(
+    (0): Conv2d(100, 256, kernel_size=(4, 4), stride=(1, 1), padding=(3, 3), bias=False)
+    (1): InstanceNorm2d(256, eps=1e-05, momentum=0.1, affine=False, track_running_stats=False)
+    (2): ReLU()
+  )
+  (up_conv2): Sequential(
+    (0): Upsample(scale_factor=2.0, mode='nearest')
+    (1): Conv2d(256, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+    (2): InstanceNorm2d(128, eps=1e-05, momentum=0.1, affine=False, track_running_stats=False)
+    (3): ReLU()
+  )
+  (up_conv3): Sequential(
+    (0): Upsample(scale_factor=2.0, mode='nearest')
+    (1): Conv2d(128, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+    (2): InstanceNorm2d(64, eps=1e-05, momentum=0.1, affine=False, track_running_stats=False)
+    (3): ReLU()
+  )
+  (up_conv4): Sequential(
+    (0): Upsample(scale_factor=2.0, mode='nearest')
+    (1): Conv2d(64, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+    (2): InstanceNorm2d(32, eps=1e-05, momentum=0.1, affine=False, track_running_stats=False)
+    (3): ReLU()
+  )
+  (up_conv5): Sequential(
+    (0): Upsample(scale_factor=2.0, mode='nearest')
+    (1): Conv2d(32, 3, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (2): Tanh()
+  )
+)
+                    D                  
+LSGANDiscriminator(
+  (conv1): Sequential(
+    (0): Conv2d(3, 32, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1), bias=False)
+    (1): InstanceNorm2d(32, eps=1e-05, momentum=0.1, affine=False, track_running_stats=False)
+    (2): ReLU()
+  )
+  (conv2): Sequential(
+    (0): Conv2d(32, 64, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1), bias=False)
+    (1): InstanceNorm2d(64, eps=1e-05, momentum=0.1, affine=False, track_running_stats=False)
+    (2): ReLU()
+  )
+  (conv3): Sequential(
+    (0): Conv2d(64, 128, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1), bias=False)
+    (1): InstanceNorm2d(128, eps=1e-05, momentum=0.1, affine=False, track_running_stats=False)
+    (2): ReLU()
+  )
+  (conv4): Sequential(
+    (0): Conv2d(128, 256, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1), bias=False)
+    (1): InstanceNorm2d(256, eps=1e-05, momentum=0.1, affine=False, track_running_stats=False)
+    (2): ReLU()
+  )
+  (conv5): Sequential(
+    (0): Conv2d(256, 1, kernel_size=(4, 4), stride=(1, 1))
+  )
+)
+Iter [   10/6500] | D_loss: 0.1557 | G_loss: 0.4321
+Iter [   20/6500] | D_loss: 0.1695 | G_loss: 0.5003
+Iter [   30/6500] | D_loss: 0.1167 | G_loss: 0.6772
+Iter [   40/6500] | D_loss: 0.0820 | G_loss: 0.6071
+Iter [   50/6500] | D_loss: 0.0624 | G_loss: 0.3367
+Iter [   60/6500] | D_loss: 0.1682 | G_loss: 1.0331
+Iter [   70/6500] | D_loss: 0.1427 | G_loss: 0.3244
+Iter [   80/6500] | D_loss: 0.0642 | G_loss: 0.5918
+Iter [   90/6500] | D_loss: 0.1173 | G_loss: 0.6640
+Iter [  100/6500] | D_loss: 0.0778 | G_loss: 0.3311
+Iter [  110/6500] | D_loss: 0.0822 | G_loss: 0.5058
+Iter [  120/6500] | D_loss: 0.0680 | G_loss: 0.5098
+Iter [  130/6500] | D_loss: 0.0912 | G_loss: 0.4924
+Iter [  140/6500] | D_loss: 0.0679 | G_loss: 0.4029
+Iter [  150/6500] | D_loss: 0.1810 | G_loss: 0.3351
+Iter [  160/6500] | D_loss: 0.0470 | G_loss: 0.5327
+Iter [  170/6500] | D_loss: 0.1739 | G_loss: 0.3337
+Iter [  180/6500] | D_loss: 0.0452 | G_loss: 0.6141
+Iter [  190/6500] | D_loss: 0.0627 | G_loss: 0.5942
+Iter [  200/6500] | D_loss: 0.0612 | G_loss: 0.4157
+Saved output/lsgan/grumpifyBprocessed_advanced/sample-000200.png
+Iter [  210/6500] | D_loss: 0.0651 | G_loss: 0.7210
+Iter [  220/6500] | D_loss: 0.0884 | G_loss: 0.7014
+Iter [  230/6500] | D_loss: 0.0806 | G_loss: 0.5615
+Iter [  240/6500] | D_loss: 0.0984 | G_loss: 0.4465
+Iter [  250/6500] | D_loss: 0.0823 | G_loss: 0.4740
+Iter [  260/6500] | D_loss: 0.0656 | G_loss: 0.4952
+Iter [  270/6500] | D_loss: 0.0512 | G_loss: 0.3961
+Iter [  280/6500] | D_loss: 0.2047 | G_loss: 0.5956
+Iter [  290/6500] | D_loss: 0.0536 | G_loss: 0.5291
+Iter [  300/6500] | D_loss: 0.1294 | G_loss: 0.6607
+Iter [  310/6500] | D_loss: 0.0608 | G_loss: 0.4771
+Iter [  320/6500] | D_loss: 0.0190 | G_loss: 0.5339
+Iter [  330/6500] | D_loss: 0.0275 | G_loss: 0.4876
+Iter [  340/6500] | D_loss: 0.0557 | G_loss: 0.3854
+Iter [  350/6500] | D_loss: 0.0493 | G_loss: 0.5089
+Iter [  360/6500] | D_loss: 0.0527 | G_loss: 0.7212
+Iter [  370/6500] | D_loss: 0.0408 | G_loss: 0.5876
+Iter [  380/6500] | D_loss: 0.0348 | G_loss: 0.3748
+Iter [  390/6500] | D_loss: 0.0404 | G_loss: 0.5413
+Iter [  400/6500] | D_loss: 0.0724 | G_loss: 0.3706
+Saved output/lsgan/grumpifyBprocessed_advanced/sample-000400.png
+Iter [  410/6500] | D_loss: 0.0537 | G_loss: 0.5171
+Iter [  420/6500] | D_loss: 0.0570 | G_loss: 0.5245
+Iter [  430/6500] | D_loss: 0.0588 | G_loss: 0.2645
+Iter [  440/6500] | D_loss: 0.0970 | G_loss: 0.3149
+Iter [  450/6500] | D_loss: 0.0775 | G_loss: 0.5317
+Iter [  460/6500] | D_loss: 0.0476 | G_loss: 0.5590
+Iter [  470/6500] | D_loss: 0.1183 | G_loss: 0.5845
+Iter [  480/6500] | D_loss: 0.0488 | G_loss: 0.5145
+Iter [  490/6500] | D_loss: 0.0616 | G_loss: 0.4681
+Iter [  500/6500] | D_loss: 0.0658 | G_loss: 0.3872
+Iter [  510/6500] | D_loss: 0.0497 | G_loss: 0.7714
+Iter [  520/6500] | D_loss: 0.0431 | G_loss: 0.5788
+Iter [  530/6500] | D_loss: 0.0497 | G_loss: 0.6118
+Iter [  540/6500] | D_loss: 0.0539 | G_loss: 0.6329
+Iter [  550/6500] | D_loss: 0.0338 | G_loss: 0.6502
+Iter [  560/6500] | D_loss: 0.0474 | G_loss: 0.4954
+Iter [  570/6500] | D_loss: 0.0957 | G_loss: 0.3495
+Iter [  580/6500] | D_loss: 0.0651 | G_loss: 0.5788
+Iter [  590/6500] | D_loss: 0.0812 | G_loss: 0.3299
+Iter [  600/6500] | D_loss: 0.0526 | G_loss: 0.5995
+Saved output/lsgan/grumpifyBprocessed_advanced/sample-000600.png
+Iter [  610/6500] | D_loss: 0.0532 | G_loss: 0.2954
+Iter [  620/6500] | D_loss: 0.0763 | G_loss: 0.3051
+Iter [  630/6500] | D_loss: 0.0455 | G_loss: 0.4806
+Iter [  640/6500] | D_loss: 0.0460 | G_loss: 0.2985
+Iter [  650/6500] | D_loss: 0.0515 | G_loss: 0.4315
+Iter [  660/6500] | D_loss: 0.0346 | G_loss: 0.4221
+Iter [  670/6500] | D_loss: 0.1228 | G_loss: 0.3947
+Iter [  680/6500] | D_loss: 0.0489 | G_loss: 0.2780
+Iter [  690/6500] | D_loss: 0.0458 | G_loss: 0.5011
+Iter [  700/6500] | D_loss: 0.0422 | G_loss: 0.3864
+Iter [  710/6500] | D_loss: 0.0425 | G_loss: 0.7095
+Iter [  720/6500] | D_loss: 0.0322 | G_loss: 0.5376
+Iter [  730/6500] | D_loss: 0.0983 | G_loss: 0.7488
+Iter [  740/6500] | D_loss: 0.0479 | G_loss: 0.4362
+Iter [  750/6500] | D_loss: 0.0399 | G_loss: 0.4517
+Iter [  760/6500] | D_loss: 0.0494 | G_loss: 0.3307
+Iter [  770/6500] | D_loss: 0.0477 | G_loss: 0.8270
+Iter [  780/6500] | D_loss: 0.0481 | G_loss: 0.2857
+Iter [  790/6500] | D_loss: 0.0616 | G_loss: 0.4655
+Iter [  800/6500] | D_loss: 0.0436 | G_loss: 0.5854
+Saved output/lsgan/grumpifyBprocessed_advanced/sample-000800.png
+Iter [  810/6500] | D_loss: 0.0594 | G_loss: 0.5188
+Iter [  820/6500] | D_loss: 0.0633 | G_loss: 0.5110
+Iter [  830/6500] | D_loss: 0.0462 | G_loss: 0.3378
+Iter [  840/6500] | D_loss: 0.0462 | G_loss: 0.4892
+Iter [  850/6500] | D_loss: 0.0630 | G_loss: 0.3802
+Iter [  860/6500] | D_loss: 0.0516 | G_loss: 0.3641
+Iter [  870/6500] | D_loss: 0.0542 | G_loss: 0.4465
+Iter [  880/6500] | D_loss: 0.1061 | G_loss: 0.5603
+Iter [  890/6500] | D_loss: 0.1369 | G_loss: 0.2594
+Iter [  900/6500] | D_loss: 0.0688 | G_loss: 0.5273
+Iter [  910/6500] | D_loss: 0.0485 | G_loss: 0.4982
+Iter [  920/6500] | D_loss: 0.0353 | G_loss: 0.4556
+Iter [  930/6500] | D_loss: 0.0787 | G_loss: 0.3506
+Iter [  940/6500] | D_loss: 0.0768 | G_loss: 0.4769
+Iter [  950/6500] | D_loss: 0.0765 | G_loss: 0.4574
+Iter [  960/6500] | D_loss: 0.0588 | G_loss: 0.4157
+Iter [  970/6500] | D_loss: 0.0517 | G_loss: 0.2975
+Iter [  980/6500] | D_loss: 0.1499 | G_loss: 0.7421
+Iter [  990/6500] | D_loss: 0.0456 | G_loss: 0.4322
+Iter [ 1000/6500] | D_loss: 0.1384 | G_loss: 0.7582
+Saved output/lsgan/grumpifyBprocessed_advanced/sample-001000.png
+Iter [ 1010/6500] | D_loss: 0.0410 | G_loss: 0.3662
+Iter [ 1020/6500] | D_loss: 0.0577 | G_loss: 0.2598
+Iter [ 1030/6500] | D_loss: 0.0459 | G_loss: 0.3396
+Iter [ 1040/6500] | D_loss: 0.0360 | G_loss: 0.8166
+Iter [ 1050/6500] | D_loss: 0.0869 | G_loss: 0.6185
+Iter [ 1060/6500] | D_loss: 0.0398 | G_loss: 0.5704
+Iter [ 1070/6500] | D_loss: 0.0757 | G_loss: 0.5534
+Iter [ 1080/6500] | D_loss: 0.0786 | G_loss: 0.3776
+Iter [ 1090/6500] | D_loss: 0.0476 | G_loss: 0.4717
+Iter [ 1100/6500] | D_loss: 0.0554 | G_loss: 0.3845
+Iter [ 1110/6500] | D_loss: 0.0575 | G_loss: 0.4097
+Iter [ 1120/6500] | D_loss: 0.0512 | G_loss: 0.3876
+Iter [ 1130/6500] | D_loss: 0.0479 | G_loss: 0.4089
+Iter [ 1140/6500] | D_loss: 0.0770 | G_loss: 0.4315
+Iter [ 1150/6500] | D_loss: 0.0441 | G_loss: 0.3214
+Iter [ 1160/6500] | D_loss: 0.0803 | G_loss: 0.7686
+Iter [ 1170/6500] | D_loss: 0.0890 | G_loss: 0.6022
+Iter [ 1180/6500] | D_loss: 0.0676 | G_loss: 0.4684
+Iter [ 1190/6500] | D_loss: 0.0494 | G_loss: 0.5603
+Iter [ 1200/6500] | D_loss: 0.1249 | G_loss: 0.7596
+Saved output/lsgan/grumpifyBprocessed_advanced/sample-001200.png
+Iter [ 1210/6500] | D_loss: 0.0773 | G_loss: 0.7112
+Iter [ 1220/6500] | D_loss: 0.0802 | G_loss: 0.8505
+Iter [ 1230/6500] | D_loss: 0.0539 | G_loss: 0.3440
+Iter [ 1240/6500] | D_loss: 0.0845 | G_loss: 0.3008
+Iter [ 1250/6500] | D_loss: 0.0734 | G_loss: 0.3953
+Iter [ 1260/6500] | D_loss: 0.0182 | G_loss: 0.4788
+Iter [ 1270/6500] | D_loss: 0.0834 | G_loss: 0.1989
+Iter [ 1280/6500] | D_loss: 0.0429 | G_loss: 0.4681
+Iter [ 1290/6500] | D_loss: 0.0412 | G_loss: 0.4776
+Iter [ 1300/6500] | D_loss: 0.0873 | G_loss: 0.5618
+Iter [ 1310/6500] | D_loss: 0.0680 | G_loss: 0.3357
+Iter [ 1320/6500] | D_loss: 0.0455 | G_loss: 0.6249
+Iter [ 1330/6500] | D_loss: 0.1309 | G_loss: 0.1840
+Iter [ 1340/6500] | D_loss: 0.0382 | G_loss: 0.5607
+Iter [ 1350/6500] | D_loss: 0.0539 | G_loss: 0.5662
+Iter [ 1360/6500] | D_loss: 0.0452 | G_loss: 0.3007
+Iter [ 1370/6500] | D_loss: 0.1154 | G_loss: 0.7477
+Iter [ 1380/6500] | D_loss: 0.0366 | G_loss: 0.4937
+Iter [ 1390/6500] | D_loss: 0.2046 | G_loss: 0.2593
+Iter [ 1400/6500] | D_loss: 0.1089 | G_loss: 0.2760
+Saved output/lsgan/grumpifyBprocessed_advanced/sample-001400.png
+Iter [ 1410/6500] | D_loss: 0.0304 | G_loss: 0.4005
+Iter [ 1420/6500] | D_loss: 0.0579 | G_loss: 0.4097
+Iter [ 1430/6500] | D_loss: 0.0804 | G_loss: 0.4031
+Iter [ 1440/6500] | D_loss: 0.0570 | G_loss: 0.7694
+Iter [ 1450/6500] | D_loss: 0.0755 | G_loss: 0.8128
+Iter [ 1460/6500] | D_loss: 0.0495 | G_loss: 0.4147
+Iter [ 1470/6500] | D_loss: 0.0523 | G_loss: 0.5241
+Iter [ 1480/6500] | D_loss: 0.1610 | G_loss: 0.1898
+Iter [ 1490/6500] | D_loss: 0.0428 | G_loss: 0.4557
+Iter [ 1500/6500] | D_loss: 0.0588 | G_loss: 0.4187
+Iter [ 1510/6500] | D_loss: 0.0394 | G_loss: 0.4874
+Iter [ 1520/6500] | D_loss: 0.0481 | G_loss: 0.2780
+Iter [ 1530/6500] | D_loss: 0.1161 | G_loss: 0.4669
+Iter [ 1540/6500] | D_loss: 0.0665 | G_loss: 0.5545
+Iter [ 1550/6500] | D_loss: 0.0401 | G_loss: 0.3103
+Iter [ 1560/6500] | D_loss: 0.0613 | G_loss: 0.4694
+Iter [ 1570/6500] | D_loss: 0.0463 | G_loss: 0.4415
+Iter [ 1580/6500] | D_loss: 0.0404 | G_loss: 0.4662
+Iter [ 1590/6500] | D_loss: 0.0636 | G_loss: 0.4332
+Iter [ 1600/6500] | D_loss: 0.0975 | G_loss: 0.2224
+Saved output/lsgan/grumpifyBprocessed_advanced/sample-001600.png
+Iter [ 1610/6500] | D_loss: 0.1184 | G_loss: 0.6325
+Iter [ 1620/6500] | D_loss: 0.0422 | G_loss: 0.5635
+Iter [ 1630/6500] | D_loss: 0.0675 | G_loss: 0.5955
+Iter [ 1640/6500] | D_loss: 0.0450 | G_loss: 0.4975
+Iter [ 1650/6500] | D_loss: 0.1864 | G_loss: 0.8062
+Iter [ 1660/6500] | D_loss: 0.0865 | G_loss: 0.3236
+Iter [ 1670/6500] | D_loss: 0.0491 | G_loss: 0.4331
+Iter [ 1680/6500] | D_loss: 0.0475 | G_loss: 0.5557
+Iter [ 1690/6500] | D_loss: 0.0617 | G_loss: 0.4372
+Iter [ 1700/6500] | D_loss: 0.1060 | G_loss: 0.7164
+Iter [ 1710/6500] | D_loss: 0.0634 | G_loss: 0.4521
+Iter [ 1720/6500] | D_loss: 0.0278 | G_loss: 0.5126
+Iter [ 1730/6500] | D_loss: 0.0291 | G_loss: 0.5377
+Iter [ 1740/6500] | D_loss: 0.0696 | G_loss: 0.6169
+Iter [ 1750/6500] | D_loss: 0.0642 | G_loss: 0.4271
+Iter [ 1760/6500] | D_loss: 0.0655 | G_loss: 0.6626
+Iter [ 1770/6500] | D_loss: 0.0723 | G_loss: 0.6128
+Iter [ 1780/6500] | D_loss: 0.0329 | G_loss: 0.3520
+Iter [ 1790/6500] | D_loss: 0.0457 | G_loss: 0.2873
+Iter [ 1800/6500] | D_loss: 0.0723 | G_loss: 0.3615
+Saved output/lsgan/grumpifyBprocessed_advanced/sample-001800.png
+Iter [ 1810/6500] | D_loss: 0.1058 | G_loss: 0.7915
+Iter [ 1820/6500] | D_loss: 0.0565 | G_loss: 0.3201
+Iter [ 1830/6500] | D_loss: 0.0353 | G_loss: 0.5463
+Iter [ 1840/6500] | D_loss: 0.0353 | G_loss: 0.4324
+Iter [ 1850/6500] | D_loss: 0.0517 | G_loss: 0.3740
+Iter [ 1860/6500] | D_loss: 0.0813 | G_loss: 0.6835
+Iter [ 1870/6500] | D_loss: 0.0645 | G_loss: 0.3944
+Iter [ 1880/6500] | D_loss: 0.0535 | G_loss: 0.3804
+Iter [ 1890/6500] | D_loss: 0.0755 | G_loss: 0.2950
+Iter [ 1900/6500] | D_loss: 0.0543 | G_loss: 0.4489
+Iter [ 1910/6500] | D_loss: 0.0677 | G_loss: 0.3274
+Iter [ 1920/6500] | D_loss: 0.1000 | G_loss: 0.2508
+Iter [ 1930/6500] | D_loss: 0.0569 | G_loss: 0.4088
+Iter [ 1940/6500] | D_loss: 0.1093 | G_loss: 0.3449
+Iter [ 1950/6500] | D_loss: 0.0270 | G_loss: 0.2756
+Iter [ 1960/6500] | D_loss: 0.0397 | G_loss: 0.3194
+Iter [ 1970/6500] | D_loss: 0.0347 | G_loss: 0.4710
+Iter [ 1980/6500] | D_loss: 0.0435 | G_loss: 0.4759
+Iter [ 1990/6500] | D_loss: 0.0519 | G_loss: 0.4638
+Iter [ 2000/6500] | D_loss: 0.0526 | G_loss: 0.4984
+Saved output/lsgan/grumpifyBprocessed_advanced/sample-002000.png
+Iter [ 2010/6500] | D_loss: 0.0536 | G_loss: 0.4182
+Iter [ 2020/6500] | D_loss: 0.0294 | G_loss: 0.4790
+Iter [ 2030/6500] | D_loss: 0.0873 | G_loss: 0.4997
+Iter [ 2040/6500] | D_loss: 0.0473 | G_loss: 0.5332
+Iter [ 2050/6500] | D_loss: 0.0589 | G_loss: 0.3451
+Iter [ 2060/6500] | D_loss: 0.0361 | G_loss: 0.3468
+Iter [ 2070/6500] | D_loss: 0.0647 | G_loss: 0.3359
+Iter [ 2080/6500] | D_loss: 0.0380 | G_loss: 0.4084
+Iter [ 2090/6500] | D_loss: 0.0544 | G_loss: 0.3827
+Iter [ 2100/6500] | D_loss: 0.0284 | G_loss: 0.5192
+Iter [ 2110/6500] | D_loss: 0.0592 | G_loss: 0.3757
+Iter [ 2120/6500] | D_loss: 0.0266 | G_loss: 0.3356
+Iter [ 2130/6500] | D_loss: 0.1199 | G_loss: 0.6208
+Iter [ 2140/6500] | D_loss: 0.0357 | G_loss: 0.3360
+Iter [ 2150/6500] | D_loss: 0.1376 | G_loss: 0.7445
+Iter [ 2160/6500] | D_loss: 0.0290 | G_loss: 0.4027
+Iter [ 2170/6500] | D_loss: 0.0219 | G_loss: 0.5263
+Iter [ 2180/6500] | D_loss: 0.0790 | G_loss: 0.4709
+Iter [ 2190/6500] | D_loss: 0.0464 | G_loss: 0.4550
+Iter [ 2200/6500] | D_loss: 0.0717 | G_loss: 0.5876
+Saved output/lsgan/grumpifyBprocessed_advanced/sample-002200.png
+Iter [ 2210/6500] | D_loss: 0.0449 | G_loss: 0.3833
+Iter [ 2220/6500] | D_loss: 0.0315 | G_loss: 0.4701
+Iter [ 2230/6500] | D_loss: 0.0774 | G_loss: 0.3611
+Iter [ 2240/6500] | D_loss: 0.0630 | G_loss: 0.5630
+Iter [ 2250/6500] | D_loss: 0.0284 | G_loss: 0.3156
+Iter [ 2260/6500] | D_loss: 0.0991 | G_loss: 0.7488
+Iter [ 2270/6500] | D_loss: 0.0412 | G_loss: 0.3672
+Iter [ 2280/6500] | D_loss: 0.0936 | G_loss: 0.6331
+Iter [ 2290/6500] | D_loss: 0.0399 | G_loss: 0.6456
+Iter [ 2300/6500] | D_loss: 0.0422 | G_loss: 0.3965
+Iter [ 2310/6500] | D_loss: 0.0357 | G_loss: 0.4127
+Iter [ 2320/6500] | D_loss: 0.0388 | G_loss: 0.3736
+Iter [ 2330/6500] | D_loss: 0.0392 | G_loss: 0.5468
+Iter [ 2340/6500] | D_loss: 0.0469 | G_loss: 0.5140
+Iter [ 2350/6500] | D_loss: 0.0376 | G_loss: 0.7611
+Iter [ 2360/6500] | D_loss: 0.0471 | G_loss: 0.5616
+Iter [ 2370/6500] | D_loss: 0.0353 | G_loss: 0.4702
+Iter [ 2380/6500] | D_loss: 0.0292 | G_loss: 0.4508
+Iter [ 2390/6500] | D_loss: 0.0438 | G_loss: 0.5138
+Iter [ 2400/6500] | D_loss: 0.0952 | G_loss: 0.5361
+Saved output/lsgan/grumpifyBprocessed_advanced/sample-002400.png
+Iter [ 2410/6500] | D_loss: 0.0423 | G_loss: 0.4367
+Iter [ 2420/6500] | D_loss: 0.0245 | G_loss: 0.4270
+Iter [ 2430/6500] | D_loss: 0.0336 | G_loss: 0.4328
+Iter [ 2440/6500] | D_loss: 0.0347 | G_loss: 0.3790
+Iter [ 2450/6500] | D_loss: 0.0350 | G_loss: 0.3394
+Iter [ 2460/6500] | D_loss: 0.0353 | G_loss: 0.4124
+Iter [ 2470/6500] | D_loss: 0.0504 | G_loss: 0.5495
+Iter [ 2480/6500] | D_loss: 0.0602 | G_loss: 0.4195
+Iter [ 2490/6500] | D_loss: 0.0403 | G_loss: 0.5517
+Iter [ 2500/6500] | D_loss: 0.0776 | G_loss: 0.3468
+Iter [ 2510/6500] | D_loss: 0.1238 | G_loss: 0.6775
+Iter [ 2520/6500] | D_loss: 0.0561 | G_loss: 0.3676
+Iter [ 2530/6500] | D_loss: 0.0526 | G_loss: 0.2811
+Iter [ 2540/6500] | D_loss: 0.0708 | G_loss: 0.5025
+Iter [ 2550/6500] | D_loss: 0.0707 | G_loss: 0.2809
+Iter [ 2560/6500] | D_loss: 0.0400 | G_loss: 0.4178
+Iter [ 2570/6500] | D_loss: 0.0452 | G_loss: 0.4781
+Iter [ 2580/6500] | D_loss: 0.0716 | G_loss: 0.5917
+Iter [ 2590/6500] | D_loss: 0.2818 | G_loss: 0.9139
+Iter [ 2600/6500] | D_loss: 0.0495 | G_loss: 0.2678
+Saved output/lsgan/grumpifyBprocessed_advanced/sample-002600.png
+Iter [ 2610/6500] | D_loss: 0.0358 | G_loss: 0.3711
+Iter [ 2620/6500] | D_loss: 0.0283 | G_loss: 0.3795
+Iter [ 2630/6500] | D_loss: 0.0590 | G_loss: 0.5055
+Iter [ 2640/6500] | D_loss: 0.0400 | G_loss: 0.3977
+Iter [ 2650/6500] | D_loss: 0.0325 | G_loss: 0.2648
+Iter [ 2660/6500] | D_loss: 0.0487 | G_loss: 0.3623
+Iter [ 2670/6500] | D_loss: 0.0772 | G_loss: 0.6756
+Iter [ 2680/6500] | D_loss: 0.0510 | G_loss: 0.4408
+Iter [ 2690/6500] | D_loss: 0.0510 | G_loss: 0.3320
+Iter [ 2700/6500] | D_loss: 0.0235 | G_loss: 0.5338
+Iter [ 2710/6500] | D_loss: 0.0418 | G_loss: 0.3393
+Iter [ 2720/6500] | D_loss: 0.0520 | G_loss: 0.4608
+Iter [ 2730/6500] | D_loss: 0.0553 | G_loss: 0.6865
+Iter [ 2740/6500] | D_loss: 0.0261 | G_loss: 0.5464
+Iter [ 2750/6500] | D_loss: 0.0504 | G_loss: 0.5452
+Iter [ 2760/6500] | D_loss: 0.0300 | G_loss: 0.3312
+Iter [ 2770/6500] | D_loss: 0.0269 | G_loss: 0.3686
+Iter [ 2780/6500] | D_loss: 0.0736 | G_loss: 0.2424
+Iter [ 2790/6500] | D_loss: 0.0306 | G_loss: 0.5666
+Iter [ 2800/6500] | D_loss: 0.0531 | G_loss: 0.4616
+Saved output/lsgan/grumpifyBprocessed_advanced/sample-002800.png
+Iter [ 2810/6500] | D_loss: 0.1426 | G_loss: 0.9422
+Iter [ 2820/6500] | D_loss: 0.0444 | G_loss: 0.6346
+Iter [ 2830/6500] | D_loss: 0.0489 | G_loss: 0.4770
+Iter [ 2840/6500] | D_loss: 0.0417 | G_loss: 0.3850
+Iter [ 2850/6500] | D_loss: 0.0787 | G_loss: 0.7576
+Iter [ 2860/6500] | D_loss: 0.0425 | G_loss: 0.4594
+Iter [ 2870/6500] | D_loss: 0.0826 | G_loss: 0.5900
+Iter [ 2880/6500] | D_loss: 0.0443 | G_loss: 0.4530
+Iter [ 2890/6500] | D_loss: 0.0503 | G_loss: 0.3389
+Iter [ 2900/6500] | D_loss: 0.1237 | G_loss: 0.2039
+Iter [ 2910/6500] | D_loss: 0.0395 | G_loss: 0.7544
+Iter [ 2920/6500] | D_loss: 0.0826 | G_loss: 0.3713
+Iter [ 2930/6500] | D_loss: 0.0741 | G_loss: 0.2614
+Iter [ 2940/6500] | D_loss: 0.0698 | G_loss: 0.4890
+Iter [ 2950/6500] | D_loss: 0.0457 | G_loss: 0.5752
+Iter [ 2960/6500] | D_loss: 0.0380 | G_loss: 0.6133
+Iter [ 2970/6500] | D_loss: 0.0309 | G_loss: 0.6091
+Iter [ 2980/6500] | D_loss: 0.0412 | G_loss: 0.4681
+Iter [ 2990/6500] | D_loss: 0.0316 | G_loss: 0.5574
+Iter [ 3000/6500] | D_loss: 0.0637 | G_loss: 0.3802
+Saved output/lsgan/grumpifyBprocessed_advanced/sample-003000.png
+Iter [ 3010/6500] | D_loss: 0.0275 | G_loss: 0.3765
+Iter [ 3020/6500] | D_loss: 0.0554 | G_loss: 0.3135
+Iter [ 3030/6500] | D_loss: 0.0378 | G_loss: 0.4723
+Iter [ 3040/6500] | D_loss: 0.0214 | G_loss: 0.5023
+Iter [ 3050/6500] | D_loss: 0.0241 | G_loss: 0.4122
+Iter [ 3060/6500] | D_loss: 0.0689 | G_loss: 0.7122
+Iter [ 3070/6500] | D_loss: 0.0405 | G_loss: 0.3828
+Iter [ 3080/6500] | D_loss: 0.0432 | G_loss: 0.2617
+Iter [ 3090/6500] | D_loss: 0.0437 | G_loss: 0.6036
+Iter [ 3100/6500] | D_loss: 0.0686 | G_loss: 0.7922
+Iter [ 3110/6500] | D_loss: 0.0665 | G_loss: 0.2795
+Iter [ 3120/6500] | D_loss: 0.0420 | G_loss: 0.2932
+Iter [ 3130/6500] | D_loss: 0.0335 | G_loss: 0.5066
+Iter [ 3140/6500] | D_loss: 0.0869 | G_loss: 0.4158
+Iter [ 3150/6500] | D_loss: 0.0332 | G_loss: 0.3656
+Iter [ 3160/6500] | D_loss: 0.0547 | G_loss: 0.6773
+Iter [ 3170/6500] | D_loss: 0.1344 | G_loss: 0.6917
+Iter [ 3180/6500] | D_loss: 0.0345 | G_loss: 0.4620
+Iter [ 3190/6500] | D_loss: 0.0833 | G_loss: 0.3798
+Iter [ 3200/6500] | D_loss: 0.0650 | G_loss: 0.5787
+Saved output/lsgan/grumpifyBprocessed_advanced/sample-003200.png
+Iter [ 3210/6500] | D_loss: 0.0749 | G_loss: 0.6497
+Iter [ 3220/6500] | D_loss: 0.0279 | G_loss: 0.3935
+Iter [ 3230/6500] | D_loss: 0.0729 | G_loss: 0.4161
+Iter [ 3240/6500] | D_loss: 0.0417 | G_loss: 0.2881
+Iter [ 3250/6500] | D_loss: 0.0980 | G_loss: 0.4161
+Iter [ 3260/6500] | D_loss: 0.0820 | G_loss: 0.3045
+Iter [ 3270/6500] | D_loss: 0.0384 | G_loss: 0.3337
+Iter [ 3280/6500] | D_loss: 0.0281 | G_loss: 0.4397
+Iter [ 3290/6500] | D_loss: 0.0516 | G_loss: 0.3795
+Iter [ 3300/6500] | D_loss: 0.0268 | G_loss: 0.4988
+Iter [ 3310/6500] | D_loss: 0.0443 | G_loss: 0.2947
+Iter [ 3320/6500] | D_loss: 0.0594 | G_loss: 0.4392
+Iter [ 3330/6500] | D_loss: 0.0383 | G_loss: 0.4621
+Iter [ 3340/6500] | D_loss: 0.0466 | G_loss: 0.3529
+Iter [ 3350/6500] | D_loss: 0.0441 | G_loss: 0.5207
+Iter [ 3360/6500] | D_loss: 0.0341 | G_loss: 0.6147
+Iter [ 3370/6500] | D_loss: 0.0474 | G_loss: 0.3625
+Iter [ 3380/6500] | D_loss: 0.0480 | G_loss: 0.5024
+Iter [ 3390/6500] | D_loss: 0.0480 | G_loss: 0.6667
+Iter [ 3400/6500] | D_loss: 0.0681 | G_loss: 0.3853
+Saved output/lsgan/grumpifyBprocessed_advanced/sample-003400.png
+Iter [ 3410/6500] | D_loss: 0.0349 | G_loss: 0.4592
+Iter [ 3420/6500] | D_loss: 0.0597 | G_loss: 0.7049
+Iter [ 3430/6500] | D_loss: 0.0272 | G_loss: 0.4169
+Iter [ 3440/6500] | D_loss: 0.0494 | G_loss: 0.5571
+Iter [ 3450/6500] | D_loss: 0.0265 | G_loss: 0.5273
+Iter [ 3460/6500] | D_loss: 0.0570 | G_loss: 0.4556
+Iter [ 3470/6500] | D_loss: 0.0319 | G_loss: 0.4982
+Iter [ 3480/6500] | D_loss: 0.0469 | G_loss: 0.6457
+Iter [ 3490/6500] | D_loss: 0.0395 | G_loss: 0.4417
+Iter [ 3500/6500] | D_loss: 0.0282 | G_loss: 0.4907
+Iter [ 3510/6500] | D_loss: 0.0727 | G_loss: 0.5683
+Iter [ 3520/6500] | D_loss: 0.0333 | G_loss: 0.4087
+Iter [ 3530/6500] | D_loss: 0.0820 | G_loss: 0.2735
+Iter [ 3540/6500] | D_loss: 0.0279 | G_loss: 0.5882
+Iter [ 3550/6500] | D_loss: 0.0291 | G_loss: 0.5864
+Iter [ 3560/6500] | D_loss: 0.0525 | G_loss: 0.4186
+Iter [ 3570/6500] | D_loss: 0.0411 | G_loss: 0.5468
+Iter [ 3580/6500] | D_loss: 0.1159 | G_loss: 0.8026
+Iter [ 3590/6500] | D_loss: 0.0368 | G_loss: 0.4167
+Iter [ 3600/6500] | D_loss: 0.0442 | G_loss: 0.3999
+Saved output/lsgan/grumpifyBprocessed_advanced/sample-003600.png
+Iter [ 3610/6500] | D_loss: 0.0545 | G_loss: 0.3968
+Iter [ 3620/6500] | D_loss: 0.0436 | G_loss: 0.5024
+Iter [ 3630/6500] | D_loss: 0.0562 | G_loss: 0.3852
+Iter [ 3640/6500] | D_loss: 0.0209 | G_loss: 0.4773
+Iter [ 3650/6500] | D_loss: 0.0472 | G_loss: 0.3665
+Iter [ 3660/6500] | D_loss: 0.0386 | G_loss: 0.4495
+Iter [ 3670/6500] | D_loss: 0.0312 | G_loss: 0.6654
+Iter [ 3680/6500] | D_loss: 0.0449 | G_loss: 0.4926
+Iter [ 3690/6500] | D_loss: 0.0559 | G_loss: 0.5804
+Iter [ 3700/6500] | D_loss: 0.0319 | G_loss: 0.4818
+Iter [ 3710/6500] | D_loss: 0.0848 | G_loss: 0.4469
+Iter [ 3720/6500] | D_loss: 0.0634 | G_loss: 0.4257
+Iter [ 3730/6500] | D_loss: 0.0806 | G_loss: 0.4042
+Iter [ 3740/6500] | D_loss: 0.0897 | G_loss: 0.6831
+Iter [ 3750/6500] | D_loss: 0.0416 | G_loss: 0.3704
+Iter [ 3760/6500] | D_loss: 0.0287 | G_loss: 0.5907
+Iter [ 3770/6500] | D_loss: 0.0308 | G_loss: 0.7427
+Iter [ 3780/6500] | D_loss: 0.0467 | G_loss: 0.5219
+Iter [ 3790/6500] | D_loss: 0.0296 | G_loss: 0.5626
+Iter [ 3800/6500] | D_loss: 0.0411 | G_loss: 0.6661
+Saved output/lsgan/grumpifyBprocessed_advanced/sample-003800.png
+Iter [ 3810/6500] | D_loss: 0.0312 | G_loss: 0.4161
+Iter [ 3820/6500] | D_loss: 0.0330 | G_loss: 0.5016
+Iter [ 3830/6500] | D_loss: 0.0872 | G_loss: 0.3534
+Iter [ 3840/6500] | D_loss: 0.0412 | G_loss: 0.4414
+Iter [ 3850/6500] | D_loss: 0.0396 | G_loss: 0.5442
+Iter [ 3860/6500] | D_loss: 0.0311 | G_loss: 0.3604
+Iter [ 3870/6500] | D_loss: 0.0755 | G_loss: 0.6348
+Iter [ 3880/6500] | D_loss: 0.0283 | G_loss: 0.4370
+Iter [ 3890/6500] | D_loss: 0.0270 | G_loss: 0.4460
+Iter [ 3900/6500] | D_loss: 0.0983 | G_loss: 0.4060
+Iter [ 3910/6500] | D_loss: 0.0497 | G_loss: 0.4536
+Iter [ 3920/6500] | D_loss: 0.0433 | G_loss: 0.4656
+Iter [ 3930/6500] | D_loss: 0.0361 | G_loss: 0.5470
+Iter [ 3940/6500] | D_loss: 0.0620 | G_loss: 0.4345
+Iter [ 3950/6500] | D_loss: 0.0471 | G_loss: 0.4937
+Iter [ 3960/6500] | D_loss: 0.0471 | G_loss: 0.4056
+Iter [ 3970/6500] | D_loss: 0.0433 | G_loss: 0.5576
+Iter [ 3980/6500] | D_loss: 0.0405 | G_loss: 0.4434
+Iter [ 3990/6500] | D_loss: 0.0391 | G_loss: 0.4214
+Iter [ 4000/6500] | D_loss: 0.0288 | G_loss: 0.5120
+Saved output/lsgan/grumpifyBprocessed_advanced/sample-004000.png
+Iter [ 4010/6500] | D_loss: 0.0377 | G_loss: 0.5367
+Iter [ 4020/6500] | D_loss: 0.0510 | G_loss: 0.5378
+Iter [ 4030/6500] | D_loss: 0.0556 | G_loss: 0.4211
+Iter [ 4040/6500] | D_loss: 0.0473 | G_loss: 0.6047
+Iter [ 4050/6500] | D_loss: 0.0228 | G_loss: 0.5114
+Iter [ 4060/6500] | D_loss: 0.0269 | G_loss: 0.3354
+Iter [ 4070/6500] | D_loss: 0.0577 | G_loss: 0.6810
+Iter [ 4080/6500] | D_loss: 0.0355 | G_loss: 0.5090
+Iter [ 4090/6500] | D_loss: 0.0380 | G_loss: 0.5600
+Iter [ 4100/6500] | D_loss: 0.0618 | G_loss: 0.3306
+Iter [ 4110/6500] | D_loss: 0.0420 | G_loss: 0.5785
+Iter [ 4120/6500] | D_loss: 0.0320 | G_loss: 0.3522
+Iter [ 4130/6500] | D_loss: 0.0422 | G_loss: 0.3004
+Iter [ 4140/6500] | D_loss: 0.0372 | G_loss: 0.4917
+Iter [ 4150/6500] | D_loss: 0.0561 | G_loss: 0.5874
+Iter [ 4160/6500] | D_loss: 0.0315 | G_loss: 0.4900
+Iter [ 4170/6500] | D_loss: 0.0585 | G_loss: 0.5804
+Iter [ 4180/6500] | D_loss: 0.0676 | G_loss: 0.6947
+Iter [ 4190/6500] | D_loss: 0.0316 | G_loss: 0.4246
+Iter [ 4200/6500] | D_loss: 0.1075 | G_loss: 0.5239
+Saved output/lsgan/grumpifyBprocessed_advanced/sample-004200.png
+Iter [ 4210/6500] | D_loss: 0.0233 | G_loss: 0.4630
+Iter [ 4220/6500] | D_loss: 0.0371 | G_loss: 0.3178
+Iter [ 4230/6500] | D_loss: 0.0478 | G_loss: 0.6527
+Iter [ 4240/6500] | D_loss: 0.0283 | G_loss: 0.5181
+Iter [ 4250/6500] | D_loss: 0.0405 | G_loss: 0.4734
+Iter [ 4260/6500] | D_loss: 0.0276 | G_loss: 0.5327
+Iter [ 4270/6500] | D_loss: 0.0551 | G_loss: 0.6272
+Iter [ 4280/6500] | D_loss: 0.0412 | G_loss: 0.4096
+Iter [ 4290/6500] | D_loss: 0.0367 | G_loss: 0.4732
+Iter [ 4300/6500] | D_loss: 0.0271 | G_loss: 0.4504
+Iter [ 4310/6500] | D_loss: 0.0369 | G_loss: 0.6282
+Iter [ 4320/6500] | D_loss: 0.0529 | G_loss: 0.3034
+Iter [ 4330/6500] | D_loss: 0.0351 | G_loss: 0.4900
+Iter [ 4340/6500] | D_loss: 0.0365 | G_loss: 0.4303
+Iter [ 4350/6500] | D_loss: 0.0327 | G_loss: 0.4316
+Iter [ 4360/6500] | D_loss: 0.0433 | G_loss: 0.4708
+Iter [ 4370/6500] | D_loss: 0.0501 | G_loss: 0.5347
+Iter [ 4380/6500] | D_loss: 0.0968 | G_loss: 0.6270
+Iter [ 4390/6500] | D_loss: 0.0369 | G_loss: 0.4166
+Iter [ 4400/6500] | D_loss: 0.0517 | G_loss: 0.4249
+Saved output/lsgan/grumpifyBprocessed_advanced/sample-004400.png
+Iter [ 4410/6500] | D_loss: 0.0396 | G_loss: 0.4617
+Iter [ 4420/6500] | D_loss: 0.0433 | G_loss: 0.5394
+Iter [ 4430/6500] | D_loss: 0.0635 | G_loss: 0.4081
+Iter [ 4440/6500] | D_loss: 0.1005 | G_loss: 0.2793
+Iter [ 4450/6500] | D_loss: 0.0529 | G_loss: 0.4096
+Iter [ 4460/6500] | D_loss: 0.0520 | G_loss: 0.3986
+Iter [ 4470/6500] | D_loss: 0.0814 | G_loss: 0.3454
+Iter [ 4480/6500] | D_loss: 0.0415 | G_loss: 0.3423
+Iter [ 4490/6500] | D_loss: 0.0354 | G_loss: 0.4370
+Iter [ 4500/6500] | D_loss: 0.0407 | G_loss: 0.3787
+Iter [ 4510/6500] | D_loss: 0.0269 | G_loss: 0.4927
+Iter [ 4520/6500] | D_loss: 0.0278 | G_loss: 0.4846
+Iter [ 4530/6500] | D_loss: 0.0439 | G_loss: 0.5487
+Iter [ 4540/6500] | D_loss: 0.0392 | G_loss: 0.5387
+Iter [ 4550/6500] | D_loss: 0.0435 | G_loss: 0.7028
+Iter [ 4560/6500] | D_loss: 0.1015 | G_loss: 0.2952
+Iter [ 4570/6500] | D_loss: 0.0397 | G_loss: 0.2908
+Iter [ 4580/6500] | D_loss: 0.0338 | G_loss: 0.4578
+Iter [ 4590/6500] | D_loss: 0.0384 | G_loss: 0.7748
+Iter [ 4600/6500] | D_loss: 0.0226 | G_loss: 0.3975
+Saved output/lsgan/grumpifyBprocessed_advanced/sample-004600.png
+Iter [ 4610/6500] | D_loss: 0.0691 | G_loss: 0.2440
+Iter [ 4620/6500] | D_loss: 0.0314 | G_loss: 0.5956
+Iter [ 4630/6500] | D_loss: 0.0247 | G_loss: 0.4847
+Iter [ 4640/6500] | D_loss: 0.0482 | G_loss: 0.6685
+Iter [ 4650/6500] | D_loss: 0.0365 | G_loss: 0.6478
+Iter [ 4660/6500] | D_loss: 0.0545 | G_loss: 0.4980
+Iter [ 4670/6500] | D_loss: 0.0330 | G_loss: 0.3933
+Iter [ 4680/6500] | D_loss: 0.0429 | G_loss: 0.5334
+Iter [ 4690/6500] | D_loss: 0.0421 | G_loss: 0.4631
+Iter [ 4700/6500] | D_loss: 0.0387 | G_loss: 0.4524
+Iter [ 4710/6500] | D_loss: 0.0226 | G_loss: 0.4252
+Iter [ 4720/6500] | D_loss: 0.0492 | G_loss: 0.4174
+Iter [ 4730/6500] | D_loss: 0.1046 | G_loss: 0.7257
+Iter [ 4740/6500] | D_loss: 0.0627 | G_loss: 0.4619
+Iter [ 4750/6500] | D_loss: 0.0567 | G_loss: 0.4593
+Iter [ 4760/6500] | D_loss: 0.1036 | G_loss: 0.2953
+Iter [ 4770/6500] | D_loss: 0.0340 | G_loss: 0.6326
+Iter [ 4780/6500] | D_loss: 0.0768 | G_loss: 0.3070
+Iter [ 4790/6500] | D_loss: 0.0537 | G_loss: 0.6014
+Iter [ 4800/6500] | D_loss: 0.0556 | G_loss: 0.5039
+Saved output/lsgan/grumpifyBprocessed_advanced/sample-004800.png
+Iter [ 4810/6500] | D_loss: 0.0318 | G_loss: 0.2701
+Iter [ 4820/6500] | D_loss: 0.0328 | G_loss: 0.4840
+Iter [ 4830/6500] | D_loss: 0.0313 | G_loss: 0.5626
+Iter [ 4840/6500] | D_loss: 0.0300 | G_loss: 0.3764
+Iter [ 4850/6500] | D_loss: 0.0362 | G_loss: 0.5377
+Iter [ 4860/6500] | D_loss: 0.0503 | G_loss: 0.6967
+Iter [ 4870/6500] | D_loss: 0.0371 | G_loss: 0.5068
+Iter [ 4880/6500] | D_loss: 0.0776 | G_loss: 0.3390
+Iter [ 4890/6500] | D_loss: 0.0557 | G_loss: 0.5282
+Iter [ 4900/6500] | D_loss: 0.0509 | G_loss: 0.6805
+Iter [ 4910/6500] | D_loss: 0.1055 | G_loss: 0.5313
+Iter [ 4920/6500] | D_loss: 0.0663 | G_loss: 0.6008
+Iter [ 4930/6500] | D_loss: 0.0525 | G_loss: 0.4160
+Iter [ 4940/6500] | D_loss: 0.0569 | G_loss: 0.4444
+Iter [ 4950/6500] | D_loss: 0.0387 | G_loss: 0.5496
+Iter [ 4960/6500] | D_loss: 0.0376 | G_loss: 0.4971
+Iter [ 4970/6500] | D_loss: 0.0403 | G_loss: 0.4582
+Iter [ 4980/6500] | D_loss: 0.0449 | G_loss: 0.7020
+Iter [ 4990/6500] | D_loss: 0.0370 | G_loss: 0.4260
+Iter [ 5000/6500] | D_loss: 0.0506 | G_loss: 0.6414
+Saved output/lsgan/grumpifyBprocessed_advanced/sample-005000.png
+Iter [ 5010/6500] | D_loss: 0.0578 | G_loss: 0.7657
+Iter [ 5020/6500] | D_loss: 0.0429 | G_loss: 0.4881
+Iter [ 5030/6500] | D_loss: 0.0313 | G_loss: 0.4480
+Iter [ 5040/6500] | D_loss: 0.0546 | G_loss: 0.3941
+Iter [ 5050/6500] | D_loss: 0.0404 | G_loss: 0.3891
+Iter [ 5060/6500] | D_loss: 0.0490 | G_loss: 0.6636
+Iter [ 5070/6500] | D_loss: 0.0460 | G_loss: 0.4171
+Iter [ 5080/6500] | D_loss: 0.0480 | G_loss: 0.5723
+Iter [ 5090/6500] | D_loss: 0.0188 | G_loss: 0.4604
+Iter [ 5100/6500] | D_loss: 0.0846 | G_loss: 0.2864
+Iter [ 5110/6500] | D_loss: 0.0393 | G_loss: 0.5081
+Iter [ 5120/6500] | D_loss: 0.0658 | G_loss: 0.2799
+Iter [ 5130/6500] | D_loss: 0.0552 | G_loss: 0.7340
+Iter [ 5140/6500] | D_loss: 0.0536 | G_loss: 0.4778
+Iter [ 5150/6500] | D_loss: 0.0336 | G_loss: 0.4627
+Iter [ 5160/6500] | D_loss: 0.0297 | G_loss: 0.4684
+Iter [ 5170/6500] | D_loss: 0.0345 | G_loss: 0.5837
+Iter [ 5180/6500] | D_loss: 0.0363 | G_loss: 0.2774
+Iter [ 5190/6500] | D_loss: 0.0217 | G_loss: 0.4937
+Iter [ 5200/6500] | D_loss: 0.0281 | G_loss: 0.3811
+Saved output/lsgan/grumpifyBprocessed_advanced/sample-005200.png
+Iter [ 5210/6500] | D_loss: 0.0313 | G_loss: 0.4695
+Iter [ 5220/6500] | D_loss: 0.0780 | G_loss: 0.3866
+Iter [ 5230/6500] | D_loss: 0.0185 | G_loss: 0.6253
+Iter [ 5240/6500] | D_loss: 0.0276 | G_loss: 0.4303
+Iter [ 5250/6500] | D_loss: 0.0554 | G_loss: 0.5706
+Iter [ 5260/6500] | D_loss: 0.0660 | G_loss: 0.2541
+Iter [ 5270/6500] | D_loss: 0.0308 | G_loss: 0.5151
+Iter [ 5280/6500] | D_loss: 0.0293 | G_loss: 0.6048
+Iter [ 5290/6500] | D_loss: 0.0364 | G_loss: 0.3476
+Iter [ 5300/6500] | D_loss: 0.0348 | G_loss: 0.4381
+Iter [ 5310/6500] | D_loss: 0.0581 | G_loss: 0.3977
+Iter [ 5320/6500] | D_loss: 0.0363 | G_loss: 0.4369
+Iter [ 5330/6500] | D_loss: 0.0373 | G_loss: 0.5014
+Iter [ 5340/6500] | D_loss: 0.0776 | G_loss: 0.7199
+Iter [ 5350/6500] | D_loss: 0.0412 | G_loss: 0.4680
+Iter [ 5360/6500] | D_loss: 0.0304 | G_loss: 0.3761
+Iter [ 5370/6500] | D_loss: 0.0285 | G_loss: 0.4878
+Iter [ 5380/6500] | D_loss: 0.0432 | G_loss: 0.4478
+Iter [ 5390/6500] | D_loss: 0.0146 | G_loss: 0.3618
+Iter [ 5400/6500] | D_loss: 0.0346 | G_loss: 0.4632
+Saved output/lsgan/grumpifyBprocessed_advanced/sample-005400.png
+Iter [ 5410/6500] | D_loss: 0.0347 | G_loss: 0.4739
+Iter [ 5420/6500] | D_loss: 0.0548 | G_loss: 0.5016
+Iter [ 5430/6500] | D_loss: 0.0296 | G_loss: 0.4324
+Iter [ 5440/6500] | D_loss: 0.0361 | G_loss: 0.5626
+Iter [ 5450/6500] | D_loss: 0.0628 | G_loss: 0.7704
+Iter [ 5460/6500] | D_loss: 0.0391 | G_loss: 0.3202
+Iter [ 5470/6500] | D_loss: 0.0477 | G_loss: 0.4402
+Iter [ 5480/6500] | D_loss: 0.0293 | G_loss: 0.5022
+Iter [ 5490/6500] | D_loss: 0.0422 | G_loss: 0.5266
+Iter [ 5500/6500] | D_loss: 0.0824 | G_loss: 0.3691
+Iter [ 5510/6500] | D_loss: 0.0187 | G_loss: 0.5068
+Iter [ 5520/6500] | D_loss: 0.0692 | G_loss: 0.4135
+Iter [ 5530/6500] | D_loss: 0.0388 | G_loss: 0.4431
+Iter [ 5540/6500] | D_loss: 0.0430 | G_loss: 0.5501
+Iter [ 5550/6500] | D_loss: 0.0431 | G_loss: 0.5364
+Iter [ 5560/6500] | D_loss: 0.0812 | G_loss: 0.6055
+Iter [ 5570/6500] | D_loss: 0.0268 | G_loss: 0.3594
+Iter [ 5580/6500] | D_loss: 0.0448 | G_loss: 0.6859
+Iter [ 5590/6500] | D_loss: 0.0493 | G_loss: 0.3962
+Iter [ 5600/6500] | D_loss: 0.0276 | G_loss: 0.4490
+Saved output/lsgan/grumpifyBprocessed_advanced/sample-005600.png
+Iter [ 5610/6500] | D_loss: 0.0746 | G_loss: 0.7642
+Iter [ 5620/6500] | D_loss: 0.0289 | G_loss: 0.4852
+Iter [ 5630/6500] | D_loss: 0.0313 | G_loss: 0.4762
+Iter [ 5640/6500] | D_loss: 0.0445 | G_loss: 0.5805
+Iter [ 5650/6500] | D_loss: 0.0246 | G_loss: 0.4135
+Iter [ 5660/6500] | D_loss: 0.0580 | G_loss: 0.3350
+Iter [ 5670/6500] | D_loss: 0.0303 | G_loss: 0.3915
+Iter [ 5680/6500] | D_loss: 0.0355 | G_loss: 0.4143
+Iter [ 5690/6500] | D_loss: 0.0326 | G_loss: 0.5099
+Iter [ 5700/6500] | D_loss: 0.0363 | G_loss: 0.3905
+Iter [ 5710/6500] | D_loss: 0.0287 | G_loss: 0.5421
+Iter [ 5720/6500] | D_loss: 0.0429 | G_loss: 0.6058
+Iter [ 5730/6500] | D_loss: 0.0302 | G_loss: 0.5980
+Iter [ 5740/6500] | D_loss: 0.0397 | G_loss: 0.3301
+Iter [ 5750/6500] | D_loss: 0.0330 | G_loss: 0.5228
+Iter [ 5760/6500] | D_loss: 0.0155 | G_loss: 0.3731
+Iter [ 5770/6500] | D_loss: 0.0332 | G_loss: 0.4057
+Iter [ 5780/6500] | D_loss: 0.0354 | G_loss: 0.6367
+Iter [ 5790/6500] | D_loss: 0.0568 | G_loss: 0.6120
+Iter [ 5800/6500] | D_loss: 0.0274 | G_loss: 0.3548
+Saved output/lsgan/grumpifyBprocessed_advanced/sample-005800.png
+Iter [ 5810/6500] | D_loss: 0.0324 | G_loss: 0.3648
+Iter [ 5820/6500] | D_loss: 0.0493 | G_loss: 0.3737
+Iter [ 5830/6500] | D_loss: 0.0759 | G_loss: 0.6848
+Iter [ 5840/6500] | D_loss: 0.0377 | G_loss: 0.3211
+Iter [ 5850/6500] | D_loss: 0.0572 | G_loss: 0.5291
+Iter [ 5860/6500] | D_loss: 0.0360 | G_loss: 0.6344
+Iter [ 5870/6500] | D_loss: 0.0466 | G_loss: 0.4864
+Iter [ 5880/6500] | D_loss: 0.0692 | G_loss: 0.5794
+Iter [ 5890/6500] | D_loss: 0.0240 | G_loss: 0.4617
+Iter [ 5900/6500] | D_loss: 0.0631 | G_loss: 0.2852
+Iter [ 5910/6500] | D_loss: 0.0310 | G_loss: 0.4351
+Iter [ 5920/6500] | D_loss: 0.0421 | G_loss: 0.5141
+Iter [ 5930/6500] | D_loss: 0.0412 | G_loss: 0.5987
+Iter [ 5940/6500] | D_loss: 0.0398 | G_loss: 0.2549
+Iter [ 5950/6500] | D_loss: 0.0296 | G_loss: 0.4746
+Iter [ 5960/6500] | D_loss: 0.0311 | G_loss: 0.4368
+Iter [ 5970/6500] | D_loss: 0.0391 | G_loss: 0.5884
+Iter [ 5980/6500] | D_loss: 0.0460 | G_loss: 0.4246
+Iter [ 5990/6500] | D_loss: 0.0227 | G_loss: 0.3846
+Iter [ 6000/6500] | D_loss: 0.0609 | G_loss: 0.3045
+Saved output/lsgan/grumpifyBprocessed_advanced/sample-006000.png
+Iter [ 6010/6500] | D_loss: 0.0341 | G_loss: 0.5581
+Iter [ 6020/6500] | D_loss: 0.0976 | G_loss: 0.6556
+Iter [ 6030/6500] | D_loss: 0.0273 | G_loss: 0.4610
+Iter [ 6040/6500] | D_loss: 0.0491 | G_loss: 0.5304
+Iter [ 6050/6500] | D_loss: 0.0362 | G_loss: 0.3806
+Iter [ 6060/6500] | D_loss: 0.0177 | G_loss: 0.6956
+Iter [ 6070/6500] | D_loss: 0.0809 | G_loss: 0.2909
+Iter [ 6080/6500] | D_loss: 0.0417 | G_loss: 0.4165
+Iter [ 6090/6500] | D_loss: 0.0229 | G_loss: 0.5297
+Iter [ 6100/6500] | D_loss: 0.0484 | G_loss: 0.5232
+Iter [ 6110/6500] | D_loss: 0.0421 | G_loss: 0.4520
+Iter [ 6120/6500] | D_loss: 0.0284 | G_loss: 0.4964
+Iter [ 6130/6500] | D_loss: 0.0682 | G_loss: 0.6152
+Iter [ 6140/6500] | D_loss: 0.0220 | G_loss: 0.3429
+Iter [ 6150/6500] | D_loss: 0.0248 | G_loss: 0.3050
+Iter [ 6160/6500] | D_loss: 0.0481 | G_loss: 0.5412
+Iter [ 6170/6500] | D_loss: 0.0604 | G_loss: 0.3568
+Iter [ 6180/6500] | D_loss: 0.0395 | G_loss: 0.5728
+Iter [ 6190/6500] | D_loss: 0.0746 | G_loss: 0.3280
+Iter [ 6200/6500] | D_loss: 0.0454 | G_loss: 0.5073
+Saved output/lsgan/grumpifyBprocessed_advanced/sample-006200.png
+Iter [ 6210/6500] | D_loss: 0.0253 | G_loss: 0.4282
+Iter [ 6220/6500] | D_loss: 0.0246 | G_loss: 0.4096
+Iter [ 6230/6500] | D_loss: 0.0203 | G_loss: 0.4421
+Iter [ 6240/6500] | D_loss: 0.0338 | G_loss: 0.3221
+Iter [ 6250/6500] | D_loss: 0.0471 | G_loss: 0.5784
+Iter [ 6260/6500] | D_loss: 0.0509 | G_loss: 0.3974
+Iter [ 6270/6500] | D_loss: 0.0278 | G_loss: 0.5040
+Iter [ 6280/6500] | D_loss: 0.0281 | G_loss: 0.5215
+Iter [ 6290/6500] | D_loss: 0.0547 | G_loss: 0.3243
+Iter [ 6300/6500] | D_loss: 0.0209 | G_loss: 0.5238
+Iter [ 6310/6500] | D_loss: 0.0433 | G_loss: 0.5438
+Iter [ 6320/6500] | D_loss: 0.0376 | G_loss: 0.6122
+Iter [ 6330/6500] | D_loss: 0.0596 | G_loss: 0.5056
+Iter [ 6340/6500] | D_loss: 0.0371 | G_loss: 0.4371
+Iter [ 6350/6500] | D_loss: 0.0635 | G_loss: 0.7095
+Iter [ 6360/6500] | D_loss: 0.0246 | G_loss: 0.4179
+Iter [ 6370/6500] | D_loss: 0.0347 | G_loss: 0.5616
+Iter [ 6380/6500] | D_loss: 0.0200 | G_loss: 0.4275
+Iter [ 6390/6500] | D_loss: 0.0318 | G_loss: 0.6737
+Iter [ 6400/6500] | D_loss: 0.0243 | G_loss: 0.2970
+Saved output/lsgan/grumpifyBprocessed_advanced/sample-006400.png
+Iter [ 6410/6500] | D_loss: 0.0596 | G_loss: 0.6363
+Iter [ 6420/6500] | D_loss: 0.0532 | G_loss: 0.4629
+Iter [ 6430/6500] | D_loss: 0.0413 | G_loss: 0.4534
+Iter [ 6440/6500] | D_loss: 0.0290 | G_loss: 0.4373
+Iter [ 6450/6500] | D_loss: 0.0447 | G_loss: 0.4946
+Iter [ 6460/6500] | D_loss: 0.0297 | G_loss: 0.3890
+Iter [ 6470/6500] | D_loss: 0.0317 | G_loss: 0.4470
+Iter [ 6480/6500] | D_loss: 0.0249 | G_loss: 0.4214
+Iter [ 6490/6500] | D_loss: 0.0437 | G_loss: 0.4601
+Iter [ 6500/6500] | D_loss: 0.0392 | G_loss: 0.5201

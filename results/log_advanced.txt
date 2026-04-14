@@ -1,0 +1,790 @@
+2026-04-13 23:06:25.197395: I tensorflow/core/util/port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2026-04-13 23:06:25.206057: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:467] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+E0000 00:00:1776121585.215671   16706 cuda_dnn.cc:8579] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+E0000 00:00:1776121585.218939   16706 cuda_blas.cc:1407] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+W0000 00:00:1776121585.227311   16706 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1776121585.227329   16706 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1776121585.227330   16706 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1776121585.227331   16706 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+2026-04-13 23:06:25.229773: I tensorflow/core/platform/cpu_feature_guard.cc:210] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F AVX512_VNNI AVX512_BF16 AVX_VNNI FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Namespace(image_size=64, conv_dim=32, noise_size=100, num_epochs=500, batch_size=16, num_workers=2, lr=0.0002, beta1=0.5, beta2=0.999, data='cat/grumpifyBprocessed', data_preprocess='advanced', ext='*.png', checkpoint_dir='./checkpoints_vanilla', sample_dir='output/./vanilla/grumpifyBprocessed_advanced', log_step=10, sample_every=200, checkpoint_every=400)
+data/cat/grumpifyBprocessed/*.png
+204
+                    G                  
+---------------------------------------
+DCGenerator(
+  (up_conv1): Sequential(
+    (0): Conv2d(100, 256, kernel_size=(4, 4), stride=(1, 1), padding=(3, 3), bias=False)
+    (1): InstanceNorm2d(256, eps=1e-05, momentum=0.1, affine=False, track_running_stats=False)
+    (2): ReLU()
+  )
+  (up_conv2): Sequential(
+    (0): Upsample(scale_factor=2.0, mode='nearest')
+    (1): Conv2d(256, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+    (2): InstanceNorm2d(128, eps=1e-05, momentum=0.1, affine=False, track_running_stats=False)
+    (3): ReLU()
+  )
+  (up_conv3): Sequential(
+    (0): Upsample(scale_factor=2.0, mode='nearest')
+    (1): Conv2d(128, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+    (2): InstanceNorm2d(64, eps=1e-05, momentum=0.1, affine=False, track_running_stats=False)
+    (3): ReLU()
+  )
+  (up_conv4): Sequential(
+    (0): Upsample(scale_factor=2.0, mode='nearest')
+    (1): Conv2d(64, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+    (2): InstanceNorm2d(32, eps=1e-05, momentum=0.1, affine=False, track_running_stats=False)
+    (3): ReLU()
+  )
+  (up_conv5): Sequential(
+    (0): Upsample(scale_factor=2.0, mode='nearest')
+    (1): Conv2d(32, 3, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (2): Tanh()
+  )
+)
+---------------------------------------
+                    D                  
+---------------------------------------
+DCDiscriminator(
+  (conv1): Sequential(
+    (0): Conv2d(3, 32, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1), bias=False)
+    (1): InstanceNorm2d(32, eps=1e-05, momentum=0.1, affine=False, track_running_stats=False)
+    (2): ReLU()
+  )
+  (conv2): Sequential(
+    (0): Conv2d(32, 64, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1), bias=False)
+    (1): InstanceNorm2d(64, eps=1e-05, momentum=0.1, affine=False, track_running_stats=False)
+    (2): ReLU()
+  )
+  (conv3): Sequential(
+    (0): Conv2d(64, 128, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1), bias=False)
+    (1): InstanceNorm2d(128, eps=1e-05, momentum=0.1, affine=False, track_running_stats=False)
+    (2): ReLU()
+  )
+  (conv4): Sequential(
+    (0): Conv2d(128, 256, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1), bias=False)
+    (1): InstanceNorm2d(256, eps=1e-05, momentum=0.1, affine=False, track_running_stats=False)
+    (2): ReLU()
+  )
+  (conv5): Sequential(
+    (0): Conv2d(256, 1, kernel_size=(4, 4), stride=(1, 1))
+  )
+)
+---------------------------------------
+Models moved to GPU.
+Iteration [  10/6500] | D_real_loss: 0.0479 | D_fake_loss: 0.1293 | G_loss: 0.4612
+Iteration [  20/6500] | D_real_loss: 0.0611 | D_fake_loss: 0.0525 | G_loss: 0.4914
+Iteration [  30/6500] | D_real_loss: 0.0317 | D_fake_loss: 0.0632 | G_loss: 0.6318
+Iteration [  40/6500] | D_real_loss: 0.0376 | D_fake_loss: 0.1543 | G_loss: 0.8888
+Iteration [  50/6500] | D_real_loss: 0.0355 | D_fake_loss: 0.0359 | G_loss: 0.2334
+Iteration [  60/6500] | D_real_loss: 0.0709 | D_fake_loss: 0.0811 | G_loss: 0.7534
+Iteration [  70/6500] | D_real_loss: 0.1046 | D_fake_loss: 0.0621 | G_loss: 0.3623
+Iteration [  80/6500] | D_real_loss: 0.0387 | D_fake_loss: 0.0545 | G_loss: 0.5845
+Iteration [  90/6500] | D_real_loss: 0.0490 | D_fake_loss: 0.1370 | G_loss: 0.8918
+Iteration [ 100/6500] | D_real_loss: 0.0229 | D_fake_loss: 0.0382 | G_loss: 0.6974
+Iteration [ 110/6500] | D_real_loss: 0.0899 | D_fake_loss: 0.0469 | G_loss: 0.4383
+Iteration [ 120/6500] | D_real_loss: 0.0126 | D_fake_loss: 0.0246 | G_loss: 0.5049
+Iteration [ 130/6500] | D_real_loss: 0.0384 | D_fake_loss: 0.0341 | G_loss: 0.4634
+Iteration [ 140/6500] | D_real_loss: 0.0394 | D_fake_loss: 0.0349 | G_loss: 0.6108
+Iteration [ 150/6500] | D_real_loss: 0.0217 | D_fake_loss: 0.0217 | G_loss: 0.4592
+Iteration [ 160/6500] | D_real_loss: 0.0266 | D_fake_loss: 0.0637 | G_loss: 0.7953
+Iteration [ 170/6500] | D_real_loss: 0.0405 | D_fake_loss: 0.0319 | G_loss: 0.5805
+Iteration [ 180/6500] | D_real_loss: 0.0657 | D_fake_loss: 0.0608 | G_loss: 0.3028
+Iteration [ 190/6500] | D_real_loss: 0.0180 | D_fake_loss: 0.0325 | G_loss: 0.7160
+Iteration [ 200/6500] | D_real_loss: 0.0451 | D_fake_loss: 0.0161 | G_loss: 0.4390
+Saved output/./vanilla/grumpifyBprocessed_advanced/sample-000200.png
+Saved output/./vanilla/grumpifyBprocessed_advanced/real-000200.png
+Iteration [ 210/6500] | D_real_loss: 0.0156 | D_fake_loss: 0.0300 | G_loss: 0.6125
+Iteration [ 220/6500] | D_real_loss: 0.0166 | D_fake_loss: 0.0441 | G_loss: 0.7042
+Iteration [ 230/6500] | D_real_loss: 0.0502 | D_fake_loss: 0.0267 | G_loss: 0.4108
+Iteration [ 240/6500] | D_real_loss: 0.0421 | D_fake_loss: 0.0202 | G_loss: 0.4209
+Iteration [ 250/6500] | D_real_loss: 0.1209 | D_fake_loss: 0.0355 | G_loss: 0.2624
+Iteration [ 260/6500] | D_real_loss: 0.0155 | D_fake_loss: 0.0113 | G_loss: 0.6056
+Iteration [ 270/6500] | D_real_loss: 0.0297 | D_fake_loss: 0.0161 | G_loss: 0.4429
+Iteration [ 280/6500] | D_real_loss: 0.0245 | D_fake_loss: 0.0300 | G_loss: 0.6059
+Iteration [ 290/6500] | D_real_loss: 0.0556 | D_fake_loss: 0.0264 | G_loss: 0.4911
+Iteration [ 300/6500] | D_real_loss: 0.0235 | D_fake_loss: 0.0430 | G_loss: 0.5837
+Iteration [ 310/6500] | D_real_loss: 0.0452 | D_fake_loss: 0.0291 | G_loss: 0.6253
+Iteration [ 320/6500] | D_real_loss: 0.0111 | D_fake_loss: 0.0122 | G_loss: 0.3564
+Iteration [ 330/6500] | D_real_loss: 0.0162 | D_fake_loss: 0.0312 | G_loss: 0.5770
+Iteration [ 340/6500] | D_real_loss: 0.0290 | D_fake_loss: 0.0890 | G_loss: 0.5523
+Iteration [ 350/6500] | D_real_loss: 0.0369 | D_fake_loss: 0.0149 | G_loss: 0.4455
+Iteration [ 360/6500] | D_real_loss: 0.0193 | D_fake_loss: 0.0372 | G_loss: 0.8059
+Iteration [ 370/6500] | D_real_loss: 0.0179 | D_fake_loss: 0.0414 | G_loss: 0.5363
+Iteration [ 380/6500] | D_real_loss: 0.0130 | D_fake_loss: 0.0443 | G_loss: 0.5724
+Iteration [ 390/6500] | D_real_loss: 0.0208 | D_fake_loss: 0.0145 | G_loss: 0.4455
+Iteration [ 400/6500] | D_real_loss: 0.0331 | D_fake_loss: 0.0241 | G_loss: 0.4216
+Saved output/./vanilla/grumpifyBprocessed_advanced/sample-000400.png
+Saved output/./vanilla/grumpifyBprocessed_advanced/real-000400.png
+Iteration [ 410/6500] | D_real_loss: 0.0193 | D_fake_loss: 0.0343 | G_loss: 0.5159
+Iteration [ 420/6500] | D_real_loss: 0.0343 | D_fake_loss: 0.0200 | G_loss: 0.5087
+Iteration [ 430/6500] | D_real_loss: 0.0360 | D_fake_loss: 0.0103 | G_loss: 0.4954
+Iteration [ 440/6500] | D_real_loss: 0.0238 | D_fake_loss: 0.0161 | G_loss: 0.5210
+Iteration [ 450/6500] | D_real_loss: 0.0182 | D_fake_loss: 0.0407 | G_loss: 0.5199
+Iteration [ 460/6500] | D_real_loss: 0.0241 | D_fake_loss: 0.0377 | G_loss: 0.7018
+Iteration [ 470/6500] | D_real_loss: 0.0131 | D_fake_loss: 0.0407 | G_loss: 0.3385
+Iteration [ 480/6500] | D_real_loss: 0.0267 | D_fake_loss: 0.0150 | G_loss: 0.4736
+Iteration [ 490/6500] | D_real_loss: 0.0212 | D_fake_loss: 0.0503 | G_loss: 0.5403
+Iteration [ 500/6500] | D_real_loss: 0.0284 | D_fake_loss: 0.0159 | G_loss: 0.2477
+Iteration [ 510/6500] | D_real_loss: 0.0288 | D_fake_loss: 0.0561 | G_loss: 0.6112
+Iteration [ 520/6500] | D_real_loss: 0.0047 | D_fake_loss: 0.0164 | G_loss: 0.4496
+Iteration [ 530/6500] | D_real_loss: 0.0292 | D_fake_loss: 0.0174 | G_loss: 0.5002
+Iteration [ 540/6500] | D_real_loss: 0.0178 | D_fake_loss: 0.0311 | G_loss: 0.5180
+Iteration [ 550/6500] | D_real_loss: 0.0177 | D_fake_loss: 0.0392 | G_loss: 0.5502
+Iteration [ 560/6500] | D_real_loss: 0.0508 | D_fake_loss: 0.0169 | G_loss: 0.2235
+Iteration [ 570/6500] | D_real_loss: 0.0343 | D_fake_loss: 0.0170 | G_loss: 0.4119
+Iteration [ 580/6500] | D_real_loss: 0.0218 | D_fake_loss: 0.0089 | G_loss: 0.4188
+Iteration [ 590/6500] | D_real_loss: 0.0308 | D_fake_loss: 0.0243 | G_loss: 0.5602
+Iteration [ 600/6500] | D_real_loss: 0.0095 | D_fake_loss: 0.0236 | G_loss: 0.6322
+Saved output/./vanilla/grumpifyBprocessed_advanced/sample-000600.png
+Saved output/./vanilla/grumpifyBprocessed_advanced/real-000600.png
+Iteration [ 610/6500] | D_real_loss: 0.0624 | D_fake_loss: 0.0321 | G_loss: 0.3293
+Iteration [ 620/6500] | D_real_loss: 0.0717 | D_fake_loss: 0.0285 | G_loss: 0.4536
+Iteration [ 630/6500] | D_real_loss: 0.0492 | D_fake_loss: 0.0121 | G_loss: 0.3058
+Iteration [ 640/6500] | D_real_loss: 0.0698 | D_fake_loss: 0.0247 | G_loss: 0.2084
+Iteration [ 650/6500] | D_real_loss: 0.0139 | D_fake_loss: 0.0213 | G_loss: 0.3989
+Iteration [ 660/6500] | D_real_loss: 0.0256 | D_fake_loss: 0.0785 | G_loss: 0.5619
+Iteration [ 670/6500] | D_real_loss: 0.0180 | D_fake_loss: 0.0238 | G_loss: 0.4867
+Iteration [ 680/6500] | D_real_loss: 0.0093 | D_fake_loss: 0.0080 | G_loss: 0.3673
+Iteration [ 690/6500] | D_real_loss: 0.0475 | D_fake_loss: 0.0237 | G_loss: 0.3536
+Iteration [ 700/6500] | D_real_loss: 0.0179 | D_fake_loss: 0.0155 | G_loss: 0.4321
+Iteration [ 710/6500] | D_real_loss: 0.0237 | D_fake_loss: 0.0160 | G_loss: 0.4426
+Iteration [ 720/6500] | D_real_loss: 0.0395 | D_fake_loss: 0.1118 | G_loss: 0.5140
+Iteration [ 730/6500] | D_real_loss: 0.0161 | D_fake_loss: 0.0291 | G_loss: 0.5015
+Iteration [ 740/6500] | D_real_loss: 0.0452 | D_fake_loss: 0.0248 | G_loss: 0.1846
+Iteration [ 750/6500] | D_real_loss: 0.0182 | D_fake_loss: 0.0222 | G_loss: 0.4324
+Iteration [ 760/6500] | D_real_loss: 0.0546 | D_fake_loss: 0.0089 | G_loss: 0.4259
+Iteration [ 770/6500] | D_real_loss: 0.0116 | D_fake_loss: 0.0132 | G_loss: 0.3922
+Iteration [ 780/6500] | D_real_loss: 0.0014 | D_fake_loss: 0.0132 | G_loss: 0.3560
+Iteration [ 790/6500] | D_real_loss: 0.0101 | D_fake_loss: 0.0157 | G_loss: 0.4739
+Iteration [ 800/6500] | D_real_loss: 0.0692 | D_fake_loss: 0.0371 | G_loss: 0.2944
+Saved output/./vanilla/grumpifyBprocessed_advanced/sample-000800.png
+Saved output/./vanilla/grumpifyBprocessed_advanced/real-000800.png
+Iteration [ 810/6500] | D_real_loss: 0.0099 | D_fake_loss: 0.0159 | G_loss: 0.5927
+Iteration [ 820/6500] | D_real_loss: 0.0357 | D_fake_loss: 0.0059 | G_loss: 0.3668
+Iteration [ 830/6500] | D_real_loss: 0.0140 | D_fake_loss: 0.0270 | G_loss: 0.4471
+Iteration [ 840/6500] | D_real_loss: 0.0538 | D_fake_loss: 0.0205 | G_loss: 0.2363
+Iteration [ 850/6500] | D_real_loss: 0.0865 | D_fake_loss: 0.0162 | G_loss: 0.3638
+Iteration [ 860/6500] | D_real_loss: 0.0277 | D_fake_loss: 0.0274 | G_loss: 0.2944
+Iteration [ 870/6500] | D_real_loss: 0.0260 | D_fake_loss: 0.0277 | G_loss: 0.5373
+Iteration [ 880/6500] | D_real_loss: 0.0265 | D_fake_loss: 0.0184 | G_loss: 0.3461
+Iteration [ 890/6500] | D_real_loss: 0.0175 | D_fake_loss: 0.0176 | G_loss: 0.4222
+Iteration [ 900/6500] | D_real_loss: 0.0558 | D_fake_loss: 0.0138 | G_loss: 0.2569
+Iteration [ 910/6500] | D_real_loss: 0.0235 | D_fake_loss: 0.0311 | G_loss: 0.6459
+Iteration [ 920/6500] | D_real_loss: 0.0236 | D_fake_loss: 0.0204 | G_loss: 0.3824
+Iteration [ 930/6500] | D_real_loss: 0.0259 | D_fake_loss: 0.0354 | G_loss: 0.4298
+Iteration [ 940/6500] | D_real_loss: 0.0258 | D_fake_loss: 0.0166 | G_loss: 0.3252
+Iteration [ 950/6500] | D_real_loss: 0.0410 | D_fake_loss: 0.0117 | G_loss: 0.3109
+Iteration [ 960/6500] | D_real_loss: 0.0398 | D_fake_loss: 0.0213 | G_loss: 0.3545
+Iteration [ 970/6500] | D_real_loss: 0.0158 | D_fake_loss: 0.0451 | G_loss: 0.4939
+Iteration [ 980/6500] | D_real_loss: 0.0139 | D_fake_loss: 0.0346 | G_loss: 0.5481
+Iteration [ 990/6500] | D_real_loss: 0.0414 | D_fake_loss: 0.0147 | G_loss: 0.2798
+Iteration [1000/6500] | D_real_loss: 0.0239 | D_fake_loss: 0.0578 | G_loss: 0.5570
+Saved output/./vanilla/grumpifyBprocessed_advanced/sample-001000.png
+Saved output/./vanilla/grumpifyBprocessed_advanced/real-001000.png
+Iteration [1010/6500] | D_real_loss: 0.0271 | D_fake_loss: 0.0950 | G_loss: 0.7591
+Iteration [1020/6500] | D_real_loss: 0.0313 | D_fake_loss: 0.0165 | G_loss: 0.5389
+Iteration [1030/6500] | D_real_loss: 0.0730 | D_fake_loss: 0.0356 | G_loss: 0.3067
+Iteration [1040/6500] | D_real_loss: 0.0152 | D_fake_loss: 0.0127 | G_loss: 0.4139
+Iteration [1050/6500] | D_real_loss: 0.0268 | D_fake_loss: 0.0375 | G_loss: 0.3357
+Iteration [1060/6500] | D_real_loss: 0.0391 | D_fake_loss: 0.0151 | G_loss: 0.2062
+Iteration [1070/6500] | D_real_loss: 0.0700 | D_fake_loss: 0.0263 | G_loss: 0.2184
+Iteration [1080/6500] | D_real_loss: 0.0295 | D_fake_loss: 0.0138 | G_loss: 0.4067
+Iteration [1090/6500] | D_real_loss: 0.0414 | D_fake_loss: 0.0184 | G_loss: 0.4004
+Iteration [1100/6500] | D_real_loss: 0.0102 | D_fake_loss: 0.0219 | G_loss: 0.4627
+Iteration [1110/6500] | D_real_loss: 0.0448 | D_fake_loss: 0.0129 | G_loss: 0.3451
+Iteration [1120/6500] | D_real_loss: 0.1618 | D_fake_loss: 0.0381 | G_loss: 0.2100
+Iteration [1130/6500] | D_real_loss: 0.0335 | D_fake_loss: 0.0906 | G_loss: 0.5917
+Iteration [1140/6500] | D_real_loss: 0.0497 | D_fake_loss: 0.0211 | G_loss: 0.4306
+Iteration [1150/6500] | D_real_loss: 0.0307 | D_fake_loss: 0.0145 | G_loss: 0.4191
+Iteration [1160/6500] | D_real_loss: 0.0329 | D_fake_loss: 0.0460 | G_loss: 0.8011
+Iteration [1170/6500] | D_real_loss: 0.0065 | D_fake_loss: 0.0449 | G_loss: 0.5957
+Iteration [1180/6500] | D_real_loss: 0.0357 | D_fake_loss: 0.0217 | G_loss: 0.3675
+Iteration [1190/6500] | D_real_loss: 0.0269 | D_fake_loss: 0.0220 | G_loss: 0.5703
+Iteration [1200/6500] | D_real_loss: 0.0149 | D_fake_loss: 0.0797 | G_loss: 0.6679
+Saved output/./vanilla/grumpifyBprocessed_advanced/sample-001200.png
+Saved output/./vanilla/grumpifyBprocessed_advanced/real-001200.png
+Iteration [1210/6500] | D_real_loss: 0.0140 | D_fake_loss: 0.0512 | G_loss: 0.6715
+Iteration [1220/6500] | D_real_loss: 0.0049 | D_fake_loss: 0.0283 | G_loss: 0.5253
+Iteration [1230/6500] | D_real_loss: 0.0139 | D_fake_loss: 0.0422 | G_loss: 0.4010
+Iteration [1240/6500] | D_real_loss: 0.0188 | D_fake_loss: 0.0297 | G_loss: 0.5935
+Iteration [1250/6500] | D_real_loss: 0.0322 | D_fake_loss: 0.0773 | G_loss: 0.6129
+Iteration [1260/6500] | D_real_loss: 0.0199 | D_fake_loss: 0.0718 | G_loss: 0.4875
+Iteration [1270/6500] | D_real_loss: 0.0674 | D_fake_loss: 0.0228 | G_loss: 0.1806
+Iteration [1280/6500] | D_real_loss: 0.0263 | D_fake_loss: 0.0324 | G_loss: 0.4742
+Iteration [1290/6500] | D_real_loss: 0.0371 | D_fake_loss: 0.0172 | G_loss: 0.3415
+Iteration [1300/6500] | D_real_loss: 0.0368 | D_fake_loss: 0.0206 | G_loss: 0.4695
+Iteration [1310/6500] | D_real_loss: 0.0293 | D_fake_loss: 0.0127 | G_loss: 0.3485
+Iteration [1320/6500] | D_real_loss: 0.1221 | D_fake_loss: 0.0307 | G_loss: 0.3611
+Iteration [1330/6500] | D_real_loss: 0.0313 | D_fake_loss: 0.0156 | G_loss: 0.3564
+Iteration [1340/6500] | D_real_loss: 0.0156 | D_fake_loss: 0.0265 | G_loss: 0.4726
+Iteration [1350/6500] | D_real_loss: 0.0248 | D_fake_loss: 0.0210 | G_loss: 0.5356
+Iteration [1360/6500] | D_real_loss: 0.0237 | D_fake_loss: 0.0835 | G_loss: 0.6188
+Iteration [1370/6500] | D_real_loss: 0.0207 | D_fake_loss: 0.0550 | G_loss: 0.4070
+Iteration [1380/6500] | D_real_loss: 0.0437 | D_fake_loss: 0.0197 | G_loss: 0.5904
+Iteration [1390/6500] | D_real_loss: 0.0141 | D_fake_loss: 0.0320 | G_loss: 0.4818
+Iteration [1400/6500] | D_real_loss: 0.0261 | D_fake_loss: 0.0172 | G_loss: 0.4258
+Saved output/./vanilla/grumpifyBprocessed_advanced/sample-001400.png
+Saved output/./vanilla/grumpifyBprocessed_advanced/real-001400.png
+Iteration [1410/6500] | D_real_loss: 0.0174 | D_fake_loss: 0.0340 | G_loss: 0.5304
+Iteration [1420/6500] | D_real_loss: 0.0547 | D_fake_loss: 0.0210 | G_loss: 0.2352
+Iteration [1430/6500] | D_real_loss: 0.0058 | D_fake_loss: 0.0687 | G_loss: 0.5038
+Iteration [1440/6500] | D_real_loss: 0.0159 | D_fake_loss: 0.0440 | G_loss: 0.6272
+Iteration [1450/6500] | D_real_loss: 0.0172 | D_fake_loss: 0.0317 | G_loss: 0.7704
+Iteration [1460/6500] | D_real_loss: 0.0376 | D_fake_loss: 0.0228 | G_loss: 0.2651
+Iteration [1470/6500] | D_real_loss: 0.0243 | D_fake_loss: 0.0243 | G_loss: 0.3782
+Iteration [1480/6500] | D_real_loss: 0.0253 | D_fake_loss: 0.0152 | G_loss: 0.3341
+Iteration [1490/6500] | D_real_loss: 0.0175 | D_fake_loss: 0.0133 | G_loss: 0.4568
+Iteration [1500/6500] | D_real_loss: 0.0093 | D_fake_loss: 0.0646 | G_loss: 0.6445
+Iteration [1510/6500] | D_real_loss: 0.0297 | D_fake_loss: 0.0200 | G_loss: 0.3570
+Iteration [1520/6500] | D_real_loss: 0.0211 | D_fake_loss: 0.0147 | G_loss: 0.3150
+Iteration [1530/6500] | D_real_loss: 0.0302 | D_fake_loss: 0.0300 | G_loss: 0.6151
+Iteration [1540/6500] | D_real_loss: 0.0197 | D_fake_loss: 0.0409 | G_loss: 0.4291
+Iteration [1550/6500] | D_real_loss: 0.0107 | D_fake_loss: 0.0652 | G_loss: 0.5760
+Iteration [1560/6500] | D_real_loss: 0.0674 | D_fake_loss: 0.0183 | G_loss: 0.3838
+Iteration [1570/6500] | D_real_loss: 0.0162 | D_fake_loss: 0.0172 | G_loss: 0.4959
+Iteration [1580/6500] | D_real_loss: 0.0400 | D_fake_loss: 0.0125 | G_loss: 0.3905
+Iteration [1590/6500] | D_real_loss: 0.0209 | D_fake_loss: 0.0480 | G_loss: 0.4625
+Iteration [1600/6500] | D_real_loss: 0.0149 | D_fake_loss: 0.0290 | G_loss: 0.5893
+Saved output/./vanilla/grumpifyBprocessed_advanced/sample-001600.png
+Saved output/./vanilla/grumpifyBprocessed_advanced/real-001600.png
+Iteration [1610/6500] | D_real_loss: 0.0273 | D_fake_loss: 0.1018 | G_loss: 0.7917
+Iteration [1620/6500] | D_real_loss: 0.0323 | D_fake_loss: 0.0227 | G_loss: 0.4883
+Iteration [1630/6500] | D_real_loss: 0.0195 | D_fake_loss: 0.0283 | G_loss: 0.5776
+Iteration [1640/6500] | D_real_loss: 0.0147 | D_fake_loss: 0.0271 | G_loss: 0.5880
+Iteration [1650/6500] | D_real_loss: 0.0427 | D_fake_loss: 0.0898 | G_loss: 0.5521
+Iteration [1660/6500] | D_real_loss: 0.0234 | D_fake_loss: 0.0197 | G_loss: 0.5610
+Iteration [1670/6500] | D_real_loss: 0.0226 | D_fake_loss: 0.0131 | G_loss: 0.6720
+Iteration [1680/6500] | D_real_loss: 0.0216 | D_fake_loss: 0.0224 | G_loss: 0.4833
+Iteration [1690/6500] | D_real_loss: 0.0261 | D_fake_loss: 0.0087 | G_loss: 0.5975
+Iteration [1700/6500] | D_real_loss: 0.0259 | D_fake_loss: 0.0247 | G_loss: 0.3931
+Iteration [1710/6500] | D_real_loss: 0.0397 | D_fake_loss: 0.0384 | G_loss: 0.5303
+Iteration [1720/6500] | D_real_loss: 0.0226 | D_fake_loss: 0.0382 | G_loss: 0.6184
+Iteration [1730/6500] | D_real_loss: 0.0466 | D_fake_loss: 0.0225 | G_loss: 0.4827
+Iteration [1740/6500] | D_real_loss: 0.0148 | D_fake_loss: 0.0479 | G_loss: 0.5334
+Iteration [1750/6500] | D_real_loss: 0.0235 | D_fake_loss: 0.0536 | G_loss: 0.6179
+Iteration [1760/6500] | D_real_loss: 0.0226 | D_fake_loss: 0.0227 | G_loss: 0.5742
+Iteration [1770/6500] | D_real_loss: 0.0453 | D_fake_loss: 0.0227 | G_loss: 0.4670
+Iteration [1780/6500] | D_real_loss: 0.0445 | D_fake_loss: 0.0468 | G_loss: 0.4978
+Iteration [1790/6500] | D_real_loss: 0.0232 | D_fake_loss: 0.0305 | G_loss: 0.3435
+Iteration [1800/6500] | D_real_loss: 0.0134 | D_fake_loss: 0.0133 | G_loss: 0.3344
+Saved output/./vanilla/grumpifyBprocessed_advanced/sample-001800.png
+Saved output/./vanilla/grumpifyBprocessed_advanced/real-001800.png
+Iteration [1810/6500] | D_real_loss: 0.0149 | D_fake_loss: 0.0633 | G_loss: 0.4863
+Iteration [1820/6500] | D_real_loss: 0.0252 | D_fake_loss: 0.0144 | G_loss: 0.3208
+Iteration [1830/6500] | D_real_loss: 0.0234 | D_fake_loss: 0.0131 | G_loss: 0.6220
+Iteration [1840/6500] | D_real_loss: 0.0233 | D_fake_loss: 0.0459 | G_loss: 0.6929
+Iteration [1850/6500] | D_real_loss: 0.0473 | D_fake_loss: 0.0151 | G_loss: 0.4617
+Iteration [1860/6500] | D_real_loss: 0.0305 | D_fake_loss: 0.0644 | G_loss: 0.7199
+Iteration [1870/6500] | D_real_loss: 0.0350 | D_fake_loss: 0.0249 | G_loss: 0.4307
+Iteration [1880/6500] | D_real_loss: 0.0126 | D_fake_loss: 0.0136 | G_loss: 0.4955
+Iteration [1890/6500] | D_real_loss: 0.0312 | D_fake_loss: 0.0098 | G_loss: 0.5545
+Iteration [1900/6500] | D_real_loss: 0.0158 | D_fake_loss: 0.0224 | G_loss: 0.4992
+Iteration [1910/6500] | D_real_loss: 0.0163 | D_fake_loss: 0.0264 | G_loss: 0.5951
+Iteration [1920/6500] | D_real_loss: 0.0397 | D_fake_loss: 0.0081 | G_loss: 0.3664
+Iteration [1930/6500] | D_real_loss: 0.0252 | D_fake_loss: 0.0137 | G_loss: 0.4554
+Iteration [1940/6500] | D_real_loss: 0.0235 | D_fake_loss: 0.0597 | G_loss: 0.5702
+Iteration [1950/6500] | D_real_loss: 0.0205 | D_fake_loss: 0.0137 | G_loss: 0.4168
+Iteration [1960/6500] | D_real_loss: 0.0572 | D_fake_loss: 0.0248 | G_loss: 0.2383
+Iteration [1970/6500] | D_real_loss: 0.0291 | D_fake_loss: 0.0123 | G_loss: 0.3463
+Iteration [1980/6500] | D_real_loss: 0.0159 | D_fake_loss: 0.0218 | G_loss: 0.5251
+Iteration [1990/6500] | D_real_loss: 0.0519 | D_fake_loss: 0.0278 | G_loss: 0.2929
+Iteration [2000/6500] | D_real_loss: 0.0157 | D_fake_loss: 0.0301 | G_loss: 0.6450
+Saved output/./vanilla/grumpifyBprocessed_advanced/sample-002000.png
+Saved output/./vanilla/grumpifyBprocessed_advanced/real-002000.png
+Iteration [2010/6500] | D_real_loss: 0.0207 | D_fake_loss: 0.0243 | G_loss: 0.4579
+Iteration [2020/6500] | D_real_loss: 0.0290 | D_fake_loss: 0.0072 | G_loss: 0.4214
+Iteration [2030/6500] | D_real_loss: 0.0271 | D_fake_loss: 0.0668 | G_loss: 0.4634
+Iteration [2040/6500] | D_real_loss: 0.0521 | D_fake_loss: 0.0222 | G_loss: 0.4034
+Iteration [2050/6500] | D_real_loss: 0.0201 | D_fake_loss: 0.0332 | G_loss: 0.5777
+Iteration [2060/6500] | D_real_loss: 0.0445 | D_fake_loss: 0.0322 | G_loss: 0.3790
+Iteration [2070/6500] | D_real_loss: 0.0398 | D_fake_loss: 0.0083 | G_loss: 0.5016
+Iteration [2080/6500] | D_real_loss: 0.0214 | D_fake_loss: 0.0142 | G_loss: 0.5646
+Iteration [2090/6500] | D_real_loss: 0.0357 | D_fake_loss: 0.0512 | G_loss: 0.5592
+Iteration [2100/6500] | D_real_loss: 0.0345 | D_fake_loss: 0.0564 | G_loss: 0.6457
+Iteration [2110/6500] | D_real_loss: 0.0261 | D_fake_loss: 0.0150 | G_loss: 0.4175
+Iteration [2120/6500] | D_real_loss: 0.0120 | D_fake_loss: 0.0171 | G_loss: 0.4110
+Iteration [2130/6500] | D_real_loss: 0.0258 | D_fake_loss: 0.0110 | G_loss: 0.4766
+Iteration [2140/6500] | D_real_loss: 0.0280 | D_fake_loss: 0.0060 | G_loss: 0.3041
+Iteration [2150/6500] | D_real_loss: 0.0242 | D_fake_loss: 0.0392 | G_loss: 0.4477
+Iteration [2160/6500] | D_real_loss: 0.0138 | D_fake_loss: 0.0558 | G_loss: 0.7583
+Iteration [2170/6500] | D_real_loss: 0.0401 | D_fake_loss: 0.0382 | G_loss: 0.5548
+Iteration [2180/6500] | D_real_loss: 0.0580 | D_fake_loss: 0.0108 | G_loss: 0.2807
+Iteration [2190/6500] | D_real_loss: 0.0342 | D_fake_loss: 0.0157 | G_loss: 0.4592
+Iteration [2200/6500] | D_real_loss: 0.0148 | D_fake_loss: 0.0744 | G_loss: 0.7762
+Saved output/./vanilla/grumpifyBprocessed_advanced/sample-002200.png
+Saved output/./vanilla/grumpifyBprocessed_advanced/real-002200.png
+Iteration [2210/6500] | D_real_loss: 0.0365 | D_fake_loss: 0.0098 | G_loss: 0.3802
+Iteration [2220/6500] | D_real_loss: 0.0170 | D_fake_loss: 0.0275 | G_loss: 0.6577
+Iteration [2230/6500] | D_real_loss: 0.0277 | D_fake_loss: 0.0236 | G_loss: 0.4554
+Iteration [2240/6500] | D_real_loss: 0.0262 | D_fake_loss: 0.0107 | G_loss: 0.5007
+Iteration [2250/6500] | D_real_loss: 0.0430 | D_fake_loss: 0.0240 | G_loss: 0.3616
+Iteration [2260/6500] | D_real_loss: 0.0585 | D_fake_loss: 0.0153 | G_loss: 0.3414
+Iteration [2270/6500] | D_real_loss: 0.0380 | D_fake_loss: 0.0073 | G_loss: 0.3570
+Iteration [2280/6500] | D_real_loss: 0.0183 | D_fake_loss: 0.0171 | G_loss: 0.2921
+Iteration [2290/6500] | D_real_loss: 0.0271 | D_fake_loss: 0.0147 | G_loss: 0.3943
+Iteration [2300/6500] | D_real_loss: 0.0187 | D_fake_loss: 0.0770 | G_loss: 0.4409
+Iteration [2310/6500] | D_real_loss: 0.0179 | D_fake_loss: 0.0126 | G_loss: 0.4821
+Iteration [2320/6500] | D_real_loss: 0.0402 | D_fake_loss: 0.0111 | G_loss: 0.4713
+Iteration [2330/6500] | D_real_loss: 0.0205 | D_fake_loss: 0.0241 | G_loss: 0.3649
+Iteration [2340/6500] | D_real_loss: 0.0175 | D_fake_loss: 0.0274 | G_loss: 0.4783
+Iteration [2350/6500] | D_real_loss: 0.0387 | D_fake_loss: 0.0258 | G_loss: 0.4255
+Iteration [2360/6500] | D_real_loss: 0.0132 | D_fake_loss: 0.0274 | G_loss: 0.4438
+Iteration [2370/6500] | D_real_loss: 0.0201 | D_fake_loss: 0.0297 | G_loss: 0.4823
+Iteration [2380/6500] | D_real_loss: 0.0140 | D_fake_loss: 0.0256 | G_loss: 0.3907
+Iteration [2390/6500] | D_real_loss: 0.0128 | D_fake_loss: 0.0202 | G_loss: 0.4275
+Iteration [2400/6500] | D_real_loss: 0.0775 | D_fake_loss: 0.0224 | G_loss: 0.2063
+Saved output/./vanilla/grumpifyBprocessed_advanced/sample-002400.png
+Saved output/./vanilla/grumpifyBprocessed_advanced/real-002400.png
+Iteration [2410/6500] | D_real_loss: 0.0188 | D_fake_loss: 0.0290 | G_loss: 0.5417
+Iteration [2420/6500] | D_real_loss: 0.0192 | D_fake_loss: 0.0642 | G_loss: 0.6753
+Iteration [2430/6500] | D_real_loss: 0.0542 | D_fake_loss: 0.0084 | G_loss: 0.2762
+Iteration [2440/6500] | D_real_loss: 0.0302 | D_fake_loss: 0.0940 | G_loss: 0.6006
+Iteration [2450/6500] | D_real_loss: 0.0100 | D_fake_loss: 0.0638 | G_loss: 0.5306
+Iteration [2460/6500] | D_real_loss: 0.0194 | D_fake_loss: 0.0549 | G_loss: 0.6231
+Iteration [2470/6500] | D_real_loss: 0.0139 | D_fake_loss: 0.0146 | G_loss: 0.3470
+Iteration [2480/6500] | D_real_loss: 0.1095 | D_fake_loss: 0.0298 | G_loss: 0.3410
+Iteration [2490/6500] | D_real_loss: 0.0339 | D_fake_loss: 0.0068 | G_loss: 0.2990
+Iteration [2500/6500] | D_real_loss: 0.0217 | D_fake_loss: 0.0242 | G_loss: 0.5129
+Iteration [2510/6500] | D_real_loss: 0.0070 | D_fake_loss: 0.0154 | G_loss: 0.3643
+Iteration [2520/6500] | D_real_loss: 0.0603 | D_fake_loss: 0.0132 | G_loss: 0.2766
+Iteration [2530/6500] | D_real_loss: 0.0525 | D_fake_loss: 0.0135 | G_loss: 0.4017
+Iteration [2540/6500] | D_real_loss: 0.0247 | D_fake_loss: 0.0223 | G_loss: 0.4631
+Iteration [2550/6500] | D_real_loss: 0.0715 | D_fake_loss: 0.0130 | G_loss: 0.3556
+Iteration [2560/6500] | D_real_loss: 0.0318 | D_fake_loss: 0.0139 | G_loss: 0.4483
+Iteration [2570/6500] | D_real_loss: 0.0148 | D_fake_loss: 0.0148 | G_loss: 0.2938
+Iteration [2580/6500] | D_real_loss: 0.0132 | D_fake_loss: 0.0388 | G_loss: 0.4918
+Iteration [2590/6500] | D_real_loss: 0.0370 | D_fake_loss: 0.0297 | G_loss: 0.3442
+Iteration [2600/6500] | D_real_loss: 0.0493 | D_fake_loss: 0.0185 | G_loss: 0.2885
+Saved output/./vanilla/grumpifyBprocessed_advanced/sample-002600.png
+Saved output/./vanilla/grumpifyBprocessed_advanced/real-002600.png
+Iteration [2610/6500] | D_real_loss: 0.0125 | D_fake_loss: 0.0237 | G_loss: 0.4676
+Iteration [2620/6500] | D_real_loss: 0.0097 | D_fake_loss: 0.0364 | G_loss: 0.5717
+Iteration [2630/6500] | D_real_loss: 0.0215 | D_fake_loss: 0.0224 | G_loss: 0.6380
+Iteration [2640/6500] | D_real_loss: 0.0223 | D_fake_loss: 0.0497 | G_loss: 0.3507
+Iteration [2650/6500] | D_real_loss: 0.0341 | D_fake_loss: 0.0187 | G_loss: 0.5571
+Iteration [2660/6500] | D_real_loss: 0.0216 | D_fake_loss: 0.0426 | G_loss: 0.5979
+Iteration [2670/6500] | D_real_loss: 0.0236 | D_fake_loss: 0.0248 | G_loss: 0.8211
+Iteration [2680/6500] | D_real_loss: 0.0288 | D_fake_loss: 0.0350 | G_loss: 0.3554
+Iteration [2690/6500] | D_real_loss: 0.0190 | D_fake_loss: 0.0167 | G_loss: 0.4465
+Iteration [2700/6500] | D_real_loss: 0.0291 | D_fake_loss: 0.0231 | G_loss: 0.3865
+Iteration [2710/6500] | D_real_loss: 0.0309 | D_fake_loss: 0.0232 | G_loss: 0.3071
+Iteration [2720/6500] | D_real_loss: 0.0153 | D_fake_loss: 0.0345 | G_loss: 0.3928
+Iteration [2730/6500] | D_real_loss: 0.0407 | D_fake_loss: 0.0254 | G_loss: 0.3816
+Iteration [2740/6500] | D_real_loss: 0.0391 | D_fake_loss: 0.0144 | G_loss: 0.4224
+Iteration [2750/6500] | D_real_loss: 0.0347 | D_fake_loss: 0.0827 | G_loss: 0.8301
+Iteration [2760/6500] | D_real_loss: 0.0352 | D_fake_loss: 0.0102 | G_loss: 0.3861
+Iteration [2770/6500] | D_real_loss: 0.0141 | D_fake_loss: 0.0371 | G_loss: 0.5883
+Iteration [2780/6500] | D_real_loss: 0.0325 | D_fake_loss: 0.0692 | G_loss: 0.5822
+Iteration [2790/6500] | D_real_loss: 0.0326 | D_fake_loss: 0.1034 | G_loss: 0.8836
+Iteration [2800/6500] | D_real_loss: 0.0504 | D_fake_loss: 0.0128 | G_loss: 0.3880
+Saved output/./vanilla/grumpifyBprocessed_advanced/sample-002800.png
+Saved output/./vanilla/grumpifyBprocessed_advanced/real-002800.png
+Iteration [2810/6500] | D_real_loss: 0.0280 | D_fake_loss: 0.0110 | G_loss: 0.5158
+Iteration [2820/6500] | D_real_loss: 0.0271 | D_fake_loss: 0.0124 | G_loss: 0.4777
+Iteration [2830/6500] | D_real_loss: 0.0135 | D_fake_loss: 0.0312 | G_loss: 0.6247
+Iteration [2840/6500] | D_real_loss: 0.0220 | D_fake_loss: 0.0176 | G_loss: 0.3313
+Iteration [2850/6500] | D_real_loss: 0.0341 | D_fake_loss: 0.0259 | G_loss: 0.5210
+Iteration [2860/6500] | D_real_loss: 0.0227 | D_fake_loss: 0.0148 | G_loss: 0.3776
+Iteration [2870/6500] | D_real_loss: 0.0336 | D_fake_loss: 0.0062 | G_loss: 0.4324
+Iteration [2880/6500] | D_real_loss: 0.0216 | D_fake_loss: 0.0339 | G_loss: 0.4993
+Iteration [2890/6500] | D_real_loss: 0.0266 | D_fake_loss: 0.0273 | G_loss: 0.5667
+Iteration [2900/6500] | D_real_loss: 0.0144 | D_fake_loss: 0.0326 | G_loss: 0.5662
+Iteration [2910/6500] | D_real_loss: 0.0189 | D_fake_loss: 0.0532 | G_loss: 0.5082
+Iteration [2920/6500] | D_real_loss: 0.0274 | D_fake_loss: 0.0343 | G_loss: 0.6293
+Iteration [2930/6500] | D_real_loss: 0.0416 | D_fake_loss: 0.0239 | G_loss: 0.3077
+Iteration [2940/6500] | D_real_loss: 0.0243 | D_fake_loss: 0.0481 | G_loss: 0.4201
+Iteration [2950/6500] | D_real_loss: 0.0330 | D_fake_loss: 0.0133 | G_loss: 0.3585
+Iteration [2960/6500] | D_real_loss: 0.0257 | D_fake_loss: 0.0485 | G_loss: 0.5952
+Iteration [2970/6500] | D_real_loss: 0.0174 | D_fake_loss: 0.0198 | G_loss: 0.4197
+Iteration [2980/6500] | D_real_loss: 0.0334 | D_fake_loss: 0.0184 | G_loss: 0.5225
+Iteration [2990/6500] | D_real_loss: 0.0144 | D_fake_loss: 0.0346 | G_loss: 0.5800
+Iteration [3000/6500] | D_real_loss: 0.0187 | D_fake_loss: 0.0226 | G_loss: 0.3989
+Saved output/./vanilla/grumpifyBprocessed_advanced/sample-003000.png
+Saved output/./vanilla/grumpifyBprocessed_advanced/real-003000.png
+Iteration [3010/6500] | D_real_loss: 0.0512 | D_fake_loss: 0.0084 | G_loss: 0.4492
+Iteration [3020/6500] | D_real_loss: 0.0298 | D_fake_loss: 0.0135 | G_loss: 0.3252
+Iteration [3030/6500] | D_real_loss: 0.0192 | D_fake_loss: 0.0240 | G_loss: 0.6388
+Iteration [3040/6500] | D_real_loss: 0.0697 | D_fake_loss: 0.0159 | G_loss: 0.3056
+Iteration [3050/6500] | D_real_loss: 0.0195 | D_fake_loss: 0.0443 | G_loss: 0.6763
+Iteration [3060/6500] | D_real_loss: 0.0333 | D_fake_loss: 0.0147 | G_loss: 0.6309
+Iteration [3070/6500] | D_real_loss: 0.0129 | D_fake_loss: 0.0458 | G_loss: 0.5936
+Iteration [3080/6500] | D_real_loss: 0.0083 | D_fake_loss: 0.0249 | G_loss: 0.4409
+Iteration [3090/6500] | D_real_loss: 0.0297 | D_fake_loss: 0.0166 | G_loss: 0.2792
+Iteration [3100/6500] | D_real_loss: 0.0420 | D_fake_loss: 0.0925 | G_loss: 0.7491
+Iteration [3110/6500] | D_real_loss: 0.0182 | D_fake_loss: 0.0436 | G_loss: 0.5691
+Iteration [3120/6500] | D_real_loss: 0.0073 | D_fake_loss: 0.0295 | G_loss: 0.3382
+Iteration [3130/6500] | D_real_loss: 0.0356 | D_fake_loss: 0.0086 | G_loss: 0.4390
+Iteration [3140/6500] | D_real_loss: 0.0280 | D_fake_loss: 0.0095 | G_loss: 0.4592
+Iteration [3150/6500] | D_real_loss: 0.0291 | D_fake_loss: 0.0282 | G_loss: 0.3403
+Iteration [3160/6500] | D_real_loss: 0.0166 | D_fake_loss: 0.0306 | G_loss: 0.5596
+Iteration [3170/6500] | D_real_loss: 0.0221 | D_fake_loss: 0.0235 | G_loss: 0.3707
+Iteration [3180/6500] | D_real_loss: 0.0201 | D_fake_loss: 0.0047 | G_loss: 0.3751
+Iteration [3190/6500] | D_real_loss: 0.0536 | D_fake_loss: 0.0160 | G_loss: 0.4043
+Iteration [3200/6500] | D_real_loss: 0.1460 | D_fake_loss: 0.0656 | G_loss: 0.2274
+Saved output/./vanilla/grumpifyBprocessed_advanced/sample-003200.png
+Saved output/./vanilla/grumpifyBprocessed_advanced/real-003200.png
+Iteration [3210/6500] | D_real_loss: 0.0155 | D_fake_loss: 0.0474 | G_loss: 0.6979
+Iteration [3220/6500] | D_real_loss: 0.0298 | D_fake_loss: 0.0167 | G_loss: 0.5018
+Iteration [3230/6500] | D_real_loss: 0.0300 | D_fake_loss: 0.0141 | G_loss: 0.4553
+Iteration [3240/6500] | D_real_loss: 0.0208 | D_fake_loss: 0.0297 | G_loss: 0.5971
+Iteration [3250/6500] | D_real_loss: 0.0159 | D_fake_loss: 0.0177 | G_loss: 0.6306
+Iteration [3260/6500] | D_real_loss: 0.0388 | D_fake_loss: 0.0080 | G_loss: 0.4452
+Iteration [3270/6500] | D_real_loss: 0.0472 | D_fake_loss: 0.0069 | G_loss: 0.3565
+Iteration [3280/6500] | D_real_loss: 0.0245 | D_fake_loss: 0.0175 | G_loss: 0.5036
+Iteration [3290/6500] | D_real_loss: 0.0231 | D_fake_loss: 0.0131 | G_loss: 0.3755
+Iteration [3300/6500] | D_real_loss: 0.0200 | D_fake_loss: 0.0163 | G_loss: 0.5223
+Iteration [3310/6500] | D_real_loss: 0.1117 | D_fake_loss: 0.0446 | G_loss: 0.1963
+Iteration [3320/6500] | D_real_loss: 0.0153 | D_fake_loss: 0.0507 | G_loss: 0.6832
+Iteration [3330/6500] | D_real_loss: 0.0097 | D_fake_loss: 0.0212 | G_loss: 0.4448
+Iteration [3340/6500] | D_real_loss: 0.0209 | D_fake_loss: 0.0381 | G_loss: 0.4443
+Iteration [3350/6500] | D_real_loss: 0.0261 | D_fake_loss: 0.0102 | G_loss: 0.1948
+Iteration [3360/6500] | D_real_loss: 0.0184 | D_fake_loss: 0.0241 | G_loss: 0.4228
+Iteration [3370/6500] | D_real_loss: 0.0184 | D_fake_loss: 0.0320 | G_loss: 0.4771
+Iteration [3380/6500] | D_real_loss: 0.0203 | D_fake_loss: 0.0236 | G_loss: 0.6436
+Iteration [3390/6500] | D_real_loss: 0.0281 | D_fake_loss: 0.0623 | G_loss: 0.6722
+Iteration [3400/6500] | D_real_loss: 0.0255 | D_fake_loss: 0.0133 | G_loss: 0.3376
+Saved output/./vanilla/grumpifyBprocessed_advanced/sample-003400.png
+Saved output/./vanilla/grumpifyBprocessed_advanced/real-003400.png
+Iteration [3410/6500] | D_real_loss: 0.0314 | D_fake_loss: 0.0066 | G_loss: 0.3546
+Iteration [3420/6500] | D_real_loss: 0.0129 | D_fake_loss: 0.0246 | G_loss: 0.3635
+Iteration [3430/6500] | D_real_loss: 0.0237 | D_fake_loss: 0.0224 | G_loss: 0.3992
+Iteration [3440/6500] | D_real_loss: 0.0178 | D_fake_loss: 0.0450 | G_loss: 0.6067
+Iteration [3450/6500] | D_real_loss: 0.0207 | D_fake_loss: 0.0484 | G_loss: 0.7310
+Iteration [3460/6500] | D_real_loss: 0.0110 | D_fake_loss: 0.0188 | G_loss: 0.6262
+Iteration [3470/6500] | D_real_loss: 0.0220 | D_fake_loss: 0.0093 | G_loss: 0.4385
+Iteration [3480/6500] | D_real_loss: 0.0103 | D_fake_loss: 0.0303 | G_loss: 0.5194
+Iteration [3490/6500] | D_real_loss: 0.0290 | D_fake_loss: 0.0475 | G_loss: 0.5236
+Iteration [3500/6500] | D_real_loss: 0.0201 | D_fake_loss: 0.0381 | G_loss: 0.4336
+Iteration [3510/6500] | D_real_loss: 0.0160 | D_fake_loss: 0.0182 | G_loss: 0.3615
+Iteration [3520/6500] | D_real_loss: 0.0262 | D_fake_loss: 0.0180 | G_loss: 0.5260
+Iteration [3530/6500] | D_real_loss: 0.0111 | D_fake_loss: 0.0211 | G_loss: 0.6994
+Iteration [3540/6500] | D_real_loss: 0.0142 | D_fake_loss: 0.0295 | G_loss: 0.5162
+Iteration [3550/6500] | D_real_loss: 0.0082 | D_fake_loss: 0.0395 | G_loss: 0.6655
+Iteration [3560/6500] | D_real_loss: 0.1389 | D_fake_loss: 0.0419 | G_loss: 0.2837
+Iteration [3570/6500] | D_real_loss: 0.0143 | D_fake_loss: 0.0436 | G_loss: 0.5537
+Iteration [3580/6500] | D_real_loss: 0.0132 | D_fake_loss: 0.0255 | G_loss: 0.5468
+Iteration [3590/6500] | D_real_loss: 0.0086 | D_fake_loss: 0.0328 | G_loss: 0.4567
+Iteration [3600/6500] | D_real_loss: 0.0228 | D_fake_loss: 0.0174 | G_loss: 0.4937
+Saved output/./vanilla/grumpifyBprocessed_advanced/sample-003600.png
+Saved output/./vanilla/grumpifyBprocessed_advanced/real-003600.png
+Iteration [3610/6500] | D_real_loss: 0.0152 | D_fake_loss: 0.0108 | G_loss: 0.5330
+Iteration [3620/6500] | D_real_loss: 0.0247 | D_fake_loss: 0.0042 | G_loss: 0.3674
+Iteration [3630/6500] | D_real_loss: 0.0255 | D_fake_loss: 0.0107 | G_loss: 0.4297
+Iteration [3640/6500] | D_real_loss: 0.0322 | D_fake_loss: 0.0100 | G_loss: 0.3807
+Iteration [3650/6500] | D_real_loss: 0.0716 | D_fake_loss: 0.0377 | G_loss: 0.2472
+Iteration [3660/6500] | D_real_loss: 0.0283 | D_fake_loss: 0.0121 | G_loss: 0.5056
+Iteration [3670/6500] | D_real_loss: 0.0144 | D_fake_loss: 0.0480 | G_loss: 0.5185
+Iteration [3680/6500] | D_real_loss: 0.0198 | D_fake_loss: 0.0138 | G_loss: 0.5313
+Iteration [3690/6500] | D_real_loss: 0.0449 | D_fake_loss: 0.0219 | G_loss: 0.2946
+Iteration [3700/6500] | D_real_loss: 0.0615 | D_fake_loss: 0.0317 | G_loss: 0.3226
+Iteration [3710/6500] | D_real_loss: 0.0644 | D_fake_loss: 0.0178 | G_loss: 0.3196
+Iteration [3720/6500] | D_real_loss: 0.0247 | D_fake_loss: 0.0757 | G_loss: 0.7421
+Iteration [3730/6500] | D_real_loss: 0.0202 | D_fake_loss: 0.0125 | G_loss: 0.3942
+Iteration [3740/6500] | D_real_loss: 0.0590 | D_fake_loss: 0.0114 | G_loss: 0.2518
+Iteration [3750/6500] | D_real_loss: 0.0246 | D_fake_loss: 0.0151 | G_loss: 0.4024
+Iteration [3760/6500] | D_real_loss: 0.0218 | D_fake_loss: 0.0684 | G_loss: 0.5335
+Iteration [3770/6500] | D_real_loss: 0.0170 | D_fake_loss: 0.0304 | G_loss: 0.5257
+Iteration [3780/6500] | D_real_loss: 0.0252 | D_fake_loss: 0.0126 | G_loss: 0.5253
+Iteration [3790/6500] | D_real_loss: 0.0148 | D_fake_loss: 0.0124 | G_loss: 0.4492
+Iteration [3800/6500] | D_real_loss: 0.0531 | D_fake_loss: 0.0138 | G_loss: 0.3510
+Saved output/./vanilla/grumpifyBprocessed_advanced/sample-003800.png
+Saved output/./vanilla/grumpifyBprocessed_advanced/real-003800.png
+Iteration [3810/6500] | D_real_loss: 0.0189 | D_fake_loss: 0.0236 | G_loss: 0.6619
+Iteration [3820/6500] | D_real_loss: 0.0231 | D_fake_loss: 0.0587 | G_loss: 0.7031
+Iteration [3830/6500] | D_real_loss: 0.0346 | D_fake_loss: 0.0221 | G_loss: 0.3803
+Iteration [3840/6500] | D_real_loss: 0.0400 | D_fake_loss: 0.0110 | G_loss: 0.3360
+Iteration [3850/6500] | D_real_loss: 0.0220 | D_fake_loss: 0.0119 | G_loss: 0.2826
+Iteration [3860/6500] | D_real_loss: 0.0133 | D_fake_loss: 0.0311 | G_loss: 0.5003
+Iteration [3870/6500] | D_real_loss: 0.0231 | D_fake_loss: 0.0450 | G_loss: 0.5779
+Iteration [3880/6500] | D_real_loss: 0.0447 | D_fake_loss: 0.0101 | G_loss: 0.3579
+Iteration [3890/6500] | D_real_loss: 0.0128 | D_fake_loss: 0.0230 | G_loss: 0.4756
+Iteration [3900/6500] | D_real_loss: 0.0233 | D_fake_loss: 0.0331 | G_loss: 0.4938
+Iteration [3910/6500] | D_real_loss: 0.0129 | D_fake_loss: 0.0217 | G_loss: 0.4954
+Iteration [3920/6500] | D_real_loss: 0.0682 | D_fake_loss: 0.0337 | G_loss: 0.3782
+Iteration [3930/6500] | D_real_loss: 0.0130 | D_fake_loss: 0.0271 | G_loss: 0.4761
+Iteration [3940/6500] | D_real_loss: 0.0198 | D_fake_loss: 0.0228 | G_loss: 0.4158
+Iteration [3950/6500] | D_real_loss: 0.0440 | D_fake_loss: 0.0171 | G_loss: 0.5045
+Iteration [3960/6500] | D_real_loss: 0.0198 | D_fake_loss: 0.0472 | G_loss: 0.4854
+Iteration [3970/6500] | D_real_loss: 0.0519 | D_fake_loss: 0.0117 | G_loss: 0.2741
+Iteration [3980/6500] | D_real_loss: 0.0344 | D_fake_loss: 0.0441 | G_loss: 0.5724
+Iteration [3990/6500] | D_real_loss: 0.0428 | D_fake_loss: 0.0113 | G_loss: 0.4017
+Iteration [4000/6500] | D_real_loss: 0.0586 | D_fake_loss: 0.0293 | G_loss: 0.3457
+Saved output/./vanilla/grumpifyBprocessed_advanced/sample-004000.png
+Saved output/./vanilla/grumpifyBprocessed_advanced/real-004000.png
+Iteration [4010/6500] | D_real_loss: 0.0150 | D_fake_loss: 0.0236 | G_loss: 0.4610
+Iteration [4020/6500] | D_real_loss: 0.0176 | D_fake_loss: 0.0122 | G_loss: 0.4778
+Iteration [4030/6500] | D_real_loss: 0.0256 | D_fake_loss: 0.0124 | G_loss: 0.5748
+Iteration [4040/6500] | D_real_loss: 0.0254 | D_fake_loss: 0.0221 | G_loss: 0.3701
+Iteration [4050/6500] | D_real_loss: 0.0297 | D_fake_loss: 0.0530 | G_loss: 0.6272
+Iteration [4060/6500] | D_real_loss: 0.0236 | D_fake_loss: 0.0144 | G_loss: 0.3125
+Iteration [4070/6500] | D_real_loss: 0.0344 | D_fake_loss: 0.0143 | G_loss: 0.6141
+Iteration [4080/6500] | D_real_loss: 0.0212 | D_fake_loss: 0.0212 | G_loss: 0.5720
+Iteration [4090/6500] | D_real_loss: 0.0132 | D_fake_loss: 0.0260 | G_loss: 0.6253
+Iteration [4100/6500] | D_real_loss: 0.0104 | D_fake_loss: 0.0202 | G_loss: 0.6129
+Iteration [4110/6500] | D_real_loss: 0.0215 | D_fake_loss: 0.0248 | G_loss: 0.4424
+Iteration [4120/6500] | D_real_loss: 0.0271 | D_fake_loss: 0.0189 | G_loss: 0.3193
+Iteration [4130/6500] | D_real_loss: 0.0685 | D_fake_loss: 0.0112 | G_loss: 0.3910
+Iteration [4140/6500] | D_real_loss: 0.0144 | D_fake_loss: 0.0230 | G_loss: 0.2410
+Iteration [4150/6500] | D_real_loss: 0.0390 | D_fake_loss: 0.0134 | G_loss: 0.3599
+Iteration [4160/6500] | D_real_loss: 0.0273 | D_fake_loss: 0.0153 | G_loss: 0.4580
+Iteration [4170/6500] | D_real_loss: 0.0189 | D_fake_loss: 0.0324 | G_loss: 0.5753
+Iteration [4180/6500] | D_real_loss: 0.0202 | D_fake_loss: 0.0124 | G_loss: 0.4434
+Iteration [4190/6500] | D_real_loss: 0.0050 | D_fake_loss: 0.0118 | G_loss: 0.6384
+Iteration [4200/6500] | D_real_loss: 0.0187 | D_fake_loss: 0.0422 | G_loss: 0.5732
+Saved output/./vanilla/grumpifyBprocessed_advanced/sample-004200.png
+Saved output/./vanilla/grumpifyBprocessed_advanced/real-004200.png
+Iteration [4210/6500] | D_real_loss: 0.0168 | D_fake_loss: 0.0407 | G_loss: 0.5218
+Iteration [4220/6500] | D_real_loss: 0.0105 | D_fake_loss: 0.0214 | G_loss: 0.4111
+Iteration [4230/6500] | D_real_loss: 0.0100 | D_fake_loss: 0.0380 | G_loss: 0.7670
+Iteration [4240/6500] | D_real_loss: 0.0233 | D_fake_loss: 0.0137 | G_loss: 0.4329
+Iteration [4250/6500] | D_real_loss: 0.0166 | D_fake_loss: 0.0602 | G_loss: 0.5758
+Iteration [4260/6500] | D_real_loss: 0.0264 | D_fake_loss: 0.0492 | G_loss: 0.3699
+Iteration [4270/6500] | D_real_loss: 0.0200 | D_fake_loss: 0.0227 | G_loss: 0.6928
+Iteration [4280/6500] | D_real_loss: 0.0090 | D_fake_loss: 0.0088 | G_loss: 0.5075
+Iteration [4290/6500] | D_real_loss: 0.0287 | D_fake_loss: 0.0053 | G_loss: 0.3408
+Iteration [4300/6500] | D_real_loss: 0.0294 | D_fake_loss: 0.0140 | G_loss: 0.4357
+Iteration [4310/6500] | D_real_loss: 0.0524 | D_fake_loss: 0.0054 | G_loss: 0.3776
+Iteration [4320/6500] | D_real_loss: 0.0285 | D_fake_loss: 0.0167 | G_loss: 0.5629
+Iteration [4330/6500] | D_real_loss: 0.0303 | D_fake_loss: 0.0477 | G_loss: 0.6489
+Iteration [4340/6500] | D_real_loss: 0.0294 | D_fake_loss: 0.0207 | G_loss: 0.4707
+Iteration [4350/6500] | D_real_loss: 0.0061 | D_fake_loss: 0.0201 | G_loss: 0.4488
+Iteration [4360/6500] | D_real_loss: 0.0101 | D_fake_loss: 0.0178 | G_loss: 0.3889
+Iteration [4370/6500] | D_real_loss: 0.0153 | D_fake_loss: 0.0183 | G_loss: 0.4024
+Iteration [4380/6500] | D_real_loss: 0.0178 | D_fake_loss: 0.0212 | G_loss: 0.5198
+Iteration [4390/6500] | D_real_loss: 0.0380 | D_fake_loss: 0.0723 | G_loss: 0.6356
+Iteration [4400/6500] | D_real_loss: 0.0254 | D_fake_loss: 0.0171 | G_loss: 0.3556
+Saved output/./vanilla/grumpifyBprocessed_advanced/sample-004400.png
+Saved output/./vanilla/grumpifyBprocessed_advanced/real-004400.png
+Iteration [4410/6500] | D_real_loss: 0.0121 | D_fake_loss: 0.0072 | G_loss: 0.3416
+Iteration [4420/6500] | D_real_loss: 0.0165 | D_fake_loss: 0.0128 | G_loss: 0.4891
+Iteration [4430/6500] | D_real_loss: 0.0143 | D_fake_loss: 0.0437 | G_loss: 0.5217
+Iteration [4440/6500] | D_real_loss: 0.0167 | D_fake_loss: 0.0519 | G_loss: 0.6571
+Iteration [4450/6500] | D_real_loss: 0.0185 | D_fake_loss: 0.0127 | G_loss: 0.4059
+Iteration [4460/6500] | D_real_loss: 0.0071 | D_fake_loss: 0.0105 | G_loss: 0.4392
+Iteration [4470/6500] | D_real_loss: 0.0311 | D_fake_loss: 0.0133 | G_loss: 0.4239
+Iteration [4480/6500] | D_real_loss: 0.0105 | D_fake_loss: 0.0145 | G_loss: 0.4516
+Iteration [4490/6500] | D_real_loss: 0.0218 | D_fake_loss: 0.0077 | G_loss: 0.3823
+Iteration [4500/6500] | D_real_loss: 0.0211 | D_fake_loss: 0.0790 | G_loss: 0.7992
+Iteration [4510/6500] | D_real_loss: 0.0135 | D_fake_loss: 0.0240 | G_loss: 0.5562
+Iteration [4520/6500] | D_real_loss: 0.0337 | D_fake_loss: 0.0186 | G_loss: 0.3408
+Iteration [4530/6500] | D_real_loss: 0.0358 | D_fake_loss: 0.0094 | G_loss: 0.3725
+Iteration [4540/6500] | D_real_loss: 0.0117 | D_fake_loss: 0.0262 | G_loss: 0.6725
+Iteration [4550/6500] | D_real_loss: 0.0169 | D_fake_loss: 0.0151 | G_loss: 0.6249
+Iteration [4560/6500] | D_real_loss: 0.0337 | D_fake_loss: 0.0157 | G_loss: 0.4920
+Iteration [4570/6500] | D_real_loss: 0.0289 | D_fake_loss: 0.0330 | G_loss: 0.5312
+Iteration [4580/6500] | D_real_loss: 0.0204 | D_fake_loss: 0.0255 | G_loss: 0.4861
+Iteration [4590/6500] | D_real_loss: 0.0431 | D_fake_loss: 0.0216 | G_loss: 0.4921
+Iteration [4600/6500] | D_real_loss: 0.0214 | D_fake_loss: 0.0280 | G_loss: 0.4914
+Saved output/./vanilla/grumpifyBprocessed_advanced/sample-004600.png
+Saved output/./vanilla/grumpifyBprocessed_advanced/real-004600.png
+Iteration [4610/6500] | D_real_loss: 0.0055 | D_fake_loss: 0.0369 | G_loss: 0.5376
+Iteration [4620/6500] | D_real_loss: 0.0236 | D_fake_loss: 0.0139 | G_loss: 0.4982
+Iteration [4630/6500] | D_real_loss: 0.0133 | D_fake_loss: 0.0194 | G_loss: 0.5174
+Iteration [4640/6500] | D_real_loss: 0.0166 | D_fake_loss: 0.0190 | G_loss: 0.7277
+Iteration [4650/6500] | D_real_loss: 0.0227 | D_fake_loss: 0.0343 | G_loss: 0.6919
+Iteration [4660/6500] | D_real_loss: 0.0090 | D_fake_loss: 0.0269 | G_loss: 0.6164
+Iteration [4670/6500] | D_real_loss: 0.0183 | D_fake_loss: 0.0188 | G_loss: 0.4581
+Iteration [4680/6500] | D_real_loss: 0.0129 | D_fake_loss: 0.0086 | G_loss: 0.7357
+Iteration [4690/6500] | D_real_loss: 0.0269 | D_fake_loss: 0.0109 | G_loss: 0.4296
+Iteration [4700/6500] | D_real_loss: 0.0397 | D_fake_loss: 0.0092 | G_loss: 0.4805
+Iteration [4710/6500] | D_real_loss: 0.0251 | D_fake_loss: 0.0120 | G_loss: 0.4396
+Iteration [4720/6500] | D_real_loss: 0.0145 | D_fake_loss: 0.0138 | G_loss: 0.3874
+Iteration [4730/6500] | D_real_loss: 0.0728 | D_fake_loss: 0.1672 | G_loss: 0.6628
+Iteration [4740/6500] | D_real_loss: 0.0282 | D_fake_loss: 0.0140 | G_loss: 0.5338
+Iteration [4750/6500] | D_real_loss: 0.0128 | D_fake_loss: 0.0220 | G_loss: 0.4983
+Iteration [4760/6500] | D_real_loss: 0.0335 | D_fake_loss: 0.0135 | G_loss: 0.4032
+Iteration [4770/6500] | D_real_loss: 0.0356 | D_fake_loss: 0.0135 | G_loss: 0.4382
+Iteration [4780/6500] | D_real_loss: 0.0144 | D_fake_loss: 0.0305 | G_loss: 0.5265
+Iteration [4790/6500] | D_real_loss: 0.0235 | D_fake_loss: 0.0107 | G_loss: 0.5693
+Iteration [4800/6500] | D_real_loss: 0.0212 | D_fake_loss: 0.0893 | G_loss: 0.4912
+Saved output/./vanilla/grumpifyBprocessed_advanced/sample-004800.png
+Saved output/./vanilla/grumpifyBprocessed_advanced/real-004800.png
+Iteration [4810/6500] | D_real_loss: 0.0086 | D_fake_loss: 0.0116 | G_loss: 0.4480
+Iteration [4820/6500] | D_real_loss: 0.0149 | D_fake_loss: 0.0366 | G_loss: 0.6859
+Iteration [4830/6500] | D_real_loss: 0.0211 | D_fake_loss: 0.0308 | G_loss: 0.4870
+Iteration [4840/6500] | D_real_loss: 0.0222 | D_fake_loss: 0.0131 | G_loss: 0.5677
+Iteration [4850/6500] | D_real_loss: 0.0120 | D_fake_loss: 0.0295 | G_loss: 0.6559
+Iteration [4860/6500] | D_real_loss: 0.0331 | D_fake_loss: 0.0219 | G_loss: 0.3574
+Iteration [4870/6500] | D_real_loss: 0.0137 | D_fake_loss: 0.0211 | G_loss: 0.5473
+Iteration [4880/6500] | D_real_loss: 0.0111 | D_fake_loss: 0.0106 | G_loss: 0.5344
+Iteration [4890/6500] | D_real_loss: 0.0131 | D_fake_loss: 0.0175 | G_loss: 0.5445
+Iteration [4900/6500] | D_real_loss: 0.0192 | D_fake_loss: 0.0171 | G_loss: 0.4176
+Iteration [4910/6500] | D_real_loss: 0.0118 | D_fake_loss: 0.0080 | G_loss: 0.4412
+Iteration [4920/6500] | D_real_loss: 0.0147 | D_fake_loss: 0.0306 | G_loss: 0.4379
+Iteration [4930/6500] | D_real_loss: 0.0153 | D_fake_loss: 0.0204 | G_loss: 0.5377
+Iteration [4940/6500] | D_real_loss: 0.0068 | D_fake_loss: 0.0599 | G_loss: 0.6718
+Iteration [4950/6500] | D_real_loss: 0.0348 | D_fake_loss: 0.0215 | G_loss: 0.3549
+Iteration [4960/6500] | D_real_loss: 0.0108 | D_fake_loss: 0.0089 | G_loss: 0.5803
+Iteration [4970/6500] | D_real_loss: 0.0114 | D_fake_loss: 0.0069 | G_loss: 0.6328
+Iteration [4980/6500] | D_real_loss: 0.0257 | D_fake_loss: 0.0186 | G_loss: 0.4402
+Iteration [4990/6500] | D_real_loss: 0.0174 | D_fake_loss: 0.0433 | G_loss: 0.6621
+Iteration [5000/6500] | D_real_loss: 0.0118 | D_fake_loss: 0.0255 | G_loss: 0.4247
+Saved output/./vanilla/grumpifyBprocessed_advanced/sample-005000.png
+Saved output/./vanilla/grumpifyBprocessed_advanced/real-005000.png
+Iteration [5010/6500] | D_real_loss: 0.0160 | D_fake_loss: 0.0158 | G_loss: 0.4474
+Iteration [5020/6500] | D_real_loss: 0.0084 | D_fake_loss: 0.0123 | G_loss: 0.4164
+Iteration [5030/6500] | D_real_loss: 0.0569 | D_fake_loss: 0.0308 | G_loss: 0.2800
+Iteration [5040/6500] | D_real_loss: 0.0153 | D_fake_loss: 0.0114 | G_loss: 0.5956
+Iteration [5050/6500] | D_real_loss: 0.0269 | D_fake_loss: 0.0467 | G_loss: 0.4337
+Iteration [5060/6500] | D_real_loss: 0.0195 | D_fake_loss: 0.0133 | G_loss: 0.3694
+Iteration [5070/6500] | D_real_loss: 0.0432 | D_fake_loss: 0.0051 | G_loss: 0.2829
+Iteration [5080/6500] | D_real_loss: 0.0548 | D_fake_loss: 0.0150 | G_loss: 0.2490
+Iteration [5090/6500] | D_real_loss: 0.0152 | D_fake_loss: 0.0054 | G_loss: 0.6632
+Iteration [5100/6500] | D_real_loss: 0.0208 | D_fake_loss: 0.0078 | G_loss: 0.4386
+Iteration [5110/6500] | D_real_loss: 0.0193 | D_fake_loss: 0.0217 | G_loss: 0.3498
+Iteration [5120/6500] | D_real_loss: 0.0271 | D_fake_loss: 0.0050 | G_loss: 0.3528
+Iteration [5130/6500] | D_real_loss: 0.0085 | D_fake_loss: 0.0246 | G_loss: 0.5605
+Iteration [5140/6500] | D_real_loss: 0.0701 | D_fake_loss: 0.0274 | G_loss: 0.3170
+Iteration [5150/6500] | D_real_loss: 0.0319 | D_fake_loss: 0.0101 | G_loss: 0.2827
+Iteration [5160/6500] | D_real_loss: 0.0097 | D_fake_loss: 0.0119 | G_loss: 0.4995
+Iteration [5170/6500] | D_real_loss: 0.0303 | D_fake_loss: 0.0191 | G_loss: 0.5552
+Iteration [5180/6500] | D_real_loss: 0.0129 | D_fake_loss: 0.0117 | G_loss: 0.4540
+Iteration [5190/6500] | D_real_loss: 0.0171 | D_fake_loss: 0.0126 | G_loss: 0.5981
+Iteration [5200/6500] | D_real_loss: 0.0071 | D_fake_loss: 0.0370 | G_loss: 0.5522
+Saved output/./vanilla/grumpifyBprocessed_advanced/sample-005200.png
+Saved output/./vanilla/grumpifyBprocessed_advanced/real-005200.png
+Iteration [5210/6500] | D_real_loss: 0.0397 | D_fake_loss: 0.0158 | G_loss: 0.3954
+Iteration [5220/6500] | D_real_loss: 0.0229 | D_fake_loss: 0.0110 | G_loss: 0.4823
+Iteration [5230/6500] | D_real_loss: 0.0181 | D_fake_loss: 0.0300 | G_loss: 0.6245
+Iteration [5240/6500] | D_real_loss: 0.0235 | D_fake_loss: 0.0126 | G_loss: 0.4964
+Iteration [5250/6500] | D_real_loss: 0.0163 | D_fake_loss: 0.0222 | G_loss: 0.4181
+Iteration [5260/6500] | D_real_loss: 0.0128 | D_fake_loss: 0.0708 | G_loss: 0.6884
+Iteration [5270/6500] | D_real_loss: 0.0191 | D_fake_loss: 0.0198 | G_loss: 0.4847
+Iteration [5280/6500] | D_real_loss: 0.0109 | D_fake_loss: 0.0207 | G_loss: 0.5973
+Iteration [5290/6500] | D_real_loss: 0.0106 | D_fake_loss: 0.0384 | G_loss: 0.5688
+Iteration [5300/6500] | D_real_loss: 0.0234 | D_fake_loss: 0.0130 | G_loss: 0.3466
+Iteration [5310/6500] | D_real_loss: 0.0354 | D_fake_loss: 0.0326 | G_loss: 0.4892
+Iteration [5320/6500] | D_real_loss: 0.0186 | D_fake_loss: 0.0107 | G_loss: 0.4200
+Iteration [5330/6500] | D_real_loss: 0.0185 | D_fake_loss: 0.0157 | G_loss: 0.4691
+Iteration [5340/6500] | D_real_loss: 0.0130 | D_fake_loss: 0.0253 | G_loss: 0.5214
+Iteration [5350/6500] | D_real_loss: 0.0170 | D_fake_loss: 0.0213 | G_loss: 0.5260
+Iteration [5360/6500] | D_real_loss: 0.0146 | D_fake_loss: 0.0275 | G_loss: 0.4356
+Iteration [5370/6500] | D_real_loss: 0.0669 | D_fake_loss: 0.0230 | G_loss: 0.2917
+Iteration [5380/6500] | D_real_loss: 0.0274 | D_fake_loss: 0.0533 | G_loss: 0.6088
+Iteration [5390/6500] | D_real_loss: 0.0429 | D_fake_loss: 0.0251 | G_loss: 0.3018
+Iteration [5400/6500] | D_real_loss: 0.0207 | D_fake_loss: 0.0083 | G_loss: 0.5337
+Saved output/./vanilla/grumpifyBprocessed_advanced/sample-005400.png
+Saved output/./vanilla/grumpifyBprocessed_advanced/real-005400.png
+Iteration [5410/6500] | D_real_loss: 0.0201 | D_fake_loss: 0.0388 | G_loss: 0.5518
+Iteration [5420/6500] | D_real_loss: 0.0232 | D_fake_loss: 0.0082 | G_loss: 0.3892
+Iteration [5430/6500] | D_real_loss: 0.0092 | D_fake_loss: 0.0214 | G_loss: 0.4802
+Iteration [5440/6500] | D_real_loss: 0.0218 | D_fake_loss: 0.0122 | G_loss: 0.4435
+Iteration [5450/6500] | D_real_loss: 0.0134 | D_fake_loss: 0.0118 | G_loss: 0.3061
+Iteration [5460/6500] | D_real_loss: 0.0213 | D_fake_loss: 0.0139 | G_loss: 0.3532
+Iteration [5470/6500] | D_real_loss: 0.0140 | D_fake_loss: 0.0232 | G_loss: 0.5789
+Iteration [5480/6500] | D_real_loss: 0.0181 | D_fake_loss: 0.0406 | G_loss: 0.6427
+Iteration [5490/6500] | D_real_loss: 0.0474 | D_fake_loss: 0.0161 | G_loss: 0.3717
+Iteration [5500/6500] | D_real_loss: 0.0171 | D_fake_loss: 0.0132 | G_loss: 0.5622
+Iteration [5510/6500] | D_real_loss: 0.0552 | D_fake_loss: 0.1102 | G_loss: 0.8800
+Iteration [5520/6500] | D_real_loss: 0.0091 | D_fake_loss: 0.0219 | G_loss: 0.5773
+Iteration [5530/6500] | D_real_loss: 0.0150 | D_fake_loss: 0.0104 | G_loss: 0.4695
+Iteration [5540/6500] | D_real_loss: 0.0073 | D_fake_loss: 0.0301 | G_loss: 0.5328
+Iteration [5550/6500] | D_real_loss: 0.0259 | D_fake_loss: 0.0107 | G_loss: 0.4741
+Iteration [5560/6500] | D_real_loss: 0.0236 | D_fake_loss: 0.0130 | G_loss: 0.4643
+Iteration [5570/6500] | D_real_loss: 0.0148 | D_fake_loss: 0.0166 | G_loss: 0.3876
+Iteration [5580/6500] | D_real_loss: 0.0121 | D_fake_loss: 0.0217 | G_loss: 0.6600
+Iteration [5590/6500] | D_real_loss: 0.0121 | D_fake_loss: 0.0372 | G_loss: 0.4643
+Iteration [5600/6500] | D_real_loss: 0.0192 | D_fake_loss: 0.0191 | G_loss: 0.3606
+Saved output/./vanilla/grumpifyBprocessed_advanced/sample-005600.png
+Saved output/./vanilla/grumpifyBprocessed_advanced/real-005600.png
+Iteration [5610/6500] | D_real_loss: 0.0225 | D_fake_loss: 0.0133 | G_loss: 0.5100
+Iteration [5620/6500] | D_real_loss: 0.0356 | D_fake_loss: 0.0366 | G_loss: 0.6856
+Iteration [5630/6500] | D_real_loss: 0.0228 | D_fake_loss: 0.0048 | G_loss: 0.4397
+Iteration [5640/6500] | D_real_loss: 0.0226 | D_fake_loss: 0.0167 | G_loss: 0.4395
+Iteration [5650/6500] | D_real_loss: 0.0333 | D_fake_loss: 0.0319 | G_loss: 0.3347
+Iteration [5660/6500] | D_real_loss: 0.0141 | D_fake_loss: 0.0148 | G_loss: 0.4503
+Iteration [5670/6500] | D_real_loss: 0.0076 | D_fake_loss: 0.0300 | G_loss: 0.5459
+Iteration [5680/6500] | D_real_loss: 0.0142 | D_fake_loss: 0.0089 | G_loss: 0.5395
+Iteration [5690/6500] | D_real_loss: 0.0149 | D_fake_loss: 0.0337 | G_loss: 0.7502
+Iteration [5700/6500] | D_real_loss: 0.0583 | D_fake_loss: 0.0113 | G_loss: 0.4269
+Iteration [5710/6500] | D_real_loss: 0.0220 | D_fake_loss: 0.0098 | G_loss: 0.4137
+Iteration [5720/6500] | D_real_loss: 0.0217 | D_fake_loss: 0.0145 | G_loss: 0.4620
+Iteration [5730/6500] | D_real_loss: 0.0112 | D_fake_loss: 0.0338 | G_loss: 0.7525
+Iteration [5740/6500] | D_real_loss: 0.0189 | D_fake_loss: 0.0193 | G_loss: 0.4703
+Iteration [5750/6500] | D_real_loss: 0.0154 | D_fake_loss: 0.0207 | G_loss: 0.6477
+Iteration [5760/6500] | D_real_loss: 0.0248 | D_fake_loss: 0.0207 | G_loss: 0.5055
+Iteration [5770/6500] | D_real_loss: 0.0245 | D_fake_loss: 0.0230 | G_loss: 0.4675
+Iteration [5780/6500] | D_real_loss: 0.0151 | D_fake_loss: 0.0361 | G_loss: 0.4010
+Iteration [5790/6500] | D_real_loss: 0.0328 | D_fake_loss: 0.0242 | G_loss: 0.3979
+Iteration [5800/6500] | D_real_loss: 0.0102 | D_fake_loss: 0.0254 | G_loss: 0.4031
+Saved output/./vanilla/grumpifyBprocessed_advanced/sample-005800.png
+Saved output/./vanilla/grumpifyBprocessed_advanced/real-005800.png
+Iteration [5810/6500] | D_real_loss: 0.0114 | D_fake_loss: 0.0173 | G_loss: 0.4255
+Iteration [5820/6500] | D_real_loss: 0.0213 | D_fake_loss: 0.0111 | G_loss: 0.5633
+Iteration [5830/6500] | D_real_loss: 0.0189 | D_fake_loss: 0.0146 | G_loss: 0.4560
+Iteration [5840/6500] | D_real_loss: 0.0102 | D_fake_loss: 0.0276 | G_loss: 0.5199
+Iteration [5850/6500] | D_real_loss: 0.0480 | D_fake_loss: 0.0111 | G_loss: 0.2878
+Iteration [5860/6500] | D_real_loss: 0.0077 | D_fake_loss: 0.0187 | G_loss: 0.5420
+Iteration [5870/6500] | D_real_loss: 0.0135 | D_fake_loss: 0.0341 | G_loss: 0.6003
+Iteration [5880/6500] | D_real_loss: 0.0072 | D_fake_loss: 0.0234 | G_loss: 0.6342
+Iteration [5890/6500] | D_real_loss: 0.0138 | D_fake_loss: 0.0119 | G_loss: 0.5804
+Iteration [5900/6500] | D_real_loss: 0.0189 | D_fake_loss: 0.0445 | G_loss: 0.5605
+Iteration [5910/6500] | D_real_loss: 0.0277 | D_fake_loss: 0.0392 | G_loss: 0.7078
+Iteration [5920/6500] | D_real_loss: 0.0112 | D_fake_loss: 0.0083 | G_loss: 0.4694
+Iteration [5930/6500] | D_real_loss: 0.1061 | D_fake_loss: 0.0562 | G_loss: 0.2469
+Iteration [5940/6500] | D_real_loss: 0.0162 | D_fake_loss: 0.0178 | G_loss: 0.4820
+Iteration [5950/6500] | D_real_loss: 0.0329 | D_fake_loss: 0.0126 | G_loss: 0.4654
+Iteration [5960/6500] | D_real_loss: 0.0108 | D_fake_loss: 0.0118 | G_loss: 0.4246
+Iteration [5970/6500] | D_real_loss: 0.0212 | D_fake_loss: 0.0280 | G_loss: 0.6800
+Iteration [5980/6500] | D_real_loss: 0.0197 | D_fake_loss: 0.0206 | G_loss: 0.4736
+Iteration [5990/6500] | D_real_loss: 0.0220 | D_fake_loss: 0.0090 | G_loss: 0.3935
+Iteration [6000/6500] | D_real_loss: 0.0160 | D_fake_loss: 0.0108 | G_loss: 0.5779
+Saved output/./vanilla/grumpifyBprocessed_advanced/sample-006000.png
+Saved output/./vanilla/grumpifyBprocessed_advanced/real-006000.png
+Iteration [6010/6500] | D_real_loss: 0.0200 | D_fake_loss: 0.0187 | G_loss: 0.3833
+Iteration [6020/6500] | D_real_loss: 0.0142 | D_fake_loss: 0.0460 | G_loss: 0.6030
+Iteration [6030/6500] | D_real_loss: 0.0136 | D_fake_loss: 0.0189 | G_loss: 0.4881
+Iteration [6040/6500] | D_real_loss: 0.0048 | D_fake_loss: 0.0406 | G_loss: 0.3980
+Iteration [6050/6500] | D_real_loss: 0.0129 | D_fake_loss: 0.0168 | G_loss: 0.4044
+Iteration [6060/6500] | D_real_loss: 0.0132 | D_fake_loss: 0.0263 | G_loss: 0.5310
+Iteration [6070/6500] | D_real_loss: 0.0204 | D_fake_loss: 0.0190 | G_loss: 0.3423
+Iteration [6080/6500] | D_real_loss: 0.0142 | D_fake_loss: 0.0216 | G_loss: 0.5314
+Iteration [6090/6500] | D_real_loss: 0.0097 | D_fake_loss: 0.0174 | G_loss: 0.5045
+Iteration [6100/6500] | D_real_loss: 0.0076 | D_fake_loss: 0.0133 | G_loss: 0.4427
+Iteration [6110/6500] | D_real_loss: 0.0218 | D_fake_loss: 0.0121 | G_loss: 0.6673
+Iteration [6120/6500] | D_real_loss: 0.0190 | D_fake_loss: 0.0083 | G_loss: 0.3735
+Iteration [6130/6500] | D_real_loss: 0.0204 | D_fake_loss: 0.0221 | G_loss: 0.5242
+Iteration [6140/6500] | D_real_loss: 0.0164 | D_fake_loss: 0.0327 | G_loss: 0.4819
+Iteration [6150/6500] | D_real_loss: 0.0401 | D_fake_loss: 0.0141 | G_loss: 0.3023
+Iteration [6160/6500] | D_real_loss: 0.0283 | D_fake_loss: 0.0167 | G_loss: 0.4241
+Iteration [6170/6500] | D_real_loss: 0.0282 | D_fake_loss: 0.0235 | G_loss: 0.4107
+Iteration [6180/6500] | D_real_loss: 0.0306 | D_fake_loss: 0.0155 | G_loss: 0.4839
+Iteration [6190/6500] | D_real_loss: 0.0547 | D_fake_loss: 0.0320 | G_loss: 0.2843
+Iteration [6200/6500] | D_real_loss: 0.0148 | D_fake_loss: 0.0236 | G_loss: 0.6521
+Saved output/./vanilla/grumpifyBprocessed_advanced/sample-006200.png
+Saved output/./vanilla/grumpifyBprocessed_advanced/real-006200.png
+Iteration [6210/6500] | D_real_loss: 0.0175 | D_fake_loss: 0.0419 | G_loss: 0.7212
+Iteration [6220/6500] | D_real_loss: 0.0125 | D_fake_loss: 0.0164 | G_loss: 0.5851
+Iteration [6230/6500] | D_real_loss: 0.0181 | D_fake_loss: 0.0696 | G_loss: 0.6266
+Iteration [6240/6500] | D_real_loss: 0.0134 | D_fake_loss: 0.0090 | G_loss: 0.4730
+Iteration [6250/6500] | D_real_loss: 0.0260 | D_fake_loss: 0.0163 | G_loss: 0.5338
+Iteration [6260/6500] | D_real_loss: 0.0284 | D_fake_loss: 0.0079 | G_loss: 0.3952
+Iteration [6270/6500] | D_real_loss: 0.0146 | D_fake_loss: 0.0255 | G_loss: 0.5546
+Iteration [6280/6500] | D_real_loss: 0.0076 | D_fake_loss: 0.0233 | G_loss: 0.4334
+Iteration [6290/6500] | D_real_loss: 0.0362 | D_fake_loss: 0.0162 | G_loss: 0.4157
+Iteration [6300/6500] | D_real_loss: 0.0168 | D_fake_loss: 0.0122 | G_loss: 0.5276
+Iteration [6310/6500] | D_real_loss: 0.0222 | D_fake_loss: 0.0094 | G_loss: 0.3903
+Iteration [6320/6500] | D_real_loss: 0.0156 | D_fake_loss: 0.0194 | G_loss: 0.5731
+Iteration [6330/6500] | D_real_loss: 0.0096 | D_fake_loss: 0.0079 | G_loss: 0.4659
+Iteration [6340/6500] | D_real_loss: 0.0204 | D_fake_loss: 0.0171 | G_loss: 0.6059
+Iteration [6350/6500] | D_real_loss: 0.0221 | D_fake_loss: 0.0134 | G_loss: 0.5282
+Iteration [6360/6500] | D_real_loss: 0.0168 | D_fake_loss: 0.0148 | G_loss: 0.5460
+Iteration [6370/6500] | D_real_loss: 0.0182 | D_fake_loss: 0.0151 | G_loss: 0.4122
+Iteration [6380/6500] | D_real_loss: 0.0257 | D_fake_loss: 0.0089 | G_loss: 0.3903
+Iteration [6390/6500] | D_real_loss: 0.0160 | D_fake_loss: 0.0108 | G_loss: 0.3497
+Iteration [6400/6500] | D_real_loss: 0.0135 | D_fake_loss: 0.0197 | G_loss: 0.5975
+Saved output/./vanilla/grumpifyBprocessed_advanced/sample-006400.png
+Saved output/./vanilla/grumpifyBprocessed_advanced/real-006400.png
+Iteration [6410/6500] | D_real_loss: 0.0423 | D_fake_loss: 0.0222 | G_loss: 0.3420
+Iteration [6420/6500] | D_real_loss: 0.0143 | D_fake_loss: 0.0239 | G_loss: 0.3214
+Iteration [6430/6500] | D_real_loss: 0.0295 | D_fake_loss: 0.0128 | G_loss: 0.4578
+Iteration [6440/6500] | D_real_loss: 0.0574 | D_fake_loss: 0.0214 | G_loss: 0.3614
+Iteration [6450/6500] | D_real_loss: 0.0119 | D_fake_loss: 0.0203 | G_loss: 0.4326
+Iteration [6460/6500] | D_real_loss: 0.0110 | D_fake_loss: 0.0132 | G_loss: 0.5613
+Iteration [6470/6500] | D_real_loss: 0.0312 | D_fake_loss: 0.0165 | G_loss: 0.5700
+Iteration [6480/6500] | D_real_loss: 0.0544 | D_fake_loss: 0.0076 | G_loss: 0.4070
+Iteration [6490/6500] | D_real_loss: 0.0243 | D_fake_loss: 0.0302 | G_loss: 0.5596
+Iteration [6500/6500] | D_real_loss: 0.0031 | D_fake_loss: 0.0104 | G_loss: 0.3903

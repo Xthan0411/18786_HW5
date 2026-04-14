@@ -1,9 +1,7 @@
-# 从训练日志 (log_basic.txt / log_advanced.txt) 中解析 loss 并绘图
-# 生成两张对比图: basic 和 advanced 的 D_real / D_fake / G_loss 曲线
+# Plot training loss curves from log files (Part 1: basic vs advanced).
 import re
 import matplotlib.pyplot as plt
 
-# 正则解析每一行的 iteration 和三个 loss 值
 LINE_RE = re.compile(
     r"Iteration\s*\[\s*(\d+)/\s*\d+\]\s*\|\s*"
     r"D_real_loss:\s*([\d.]+)\s*\|\s*"
@@ -13,7 +11,7 @@ LINE_RE = re.compile(
 
 
 def parse_log(path):
-    """读取日志文件, 返回 (iterations, D_real, D_fake, G) 四个列表"""
+    """Parse a log file and return (iterations, D_real, D_fake, G_loss)."""
     iters, d_real, d_fake, g = [], [], [], []
     with open(path, "r") as f:
         for line in f:
@@ -27,7 +25,7 @@ def parse_log(path):
 
 
 def plot_run(path, title, save_path):
-    """绘制单个 run 的三条 loss 曲线"""
+    """Plot D_real / D_fake / G_loss for a single run."""
     it, dr, df, gl = parse_log(path)
     fig, ax = plt.subplots(figsize=(9, 5))
     ax.plot(it, dr, label="D_real", alpha=0.8)
@@ -36,7 +34,7 @@ def plot_run(path, title, save_path):
     ax.set_xlabel("Iteration")
     ax.set_ylabel("Loss")
     ax.set_title(title)
-    ax.set_yscale("log")  # log 刻度便于观察小值
+    ax.set_yscale("log")
     ax.legend()
     ax.grid(alpha=0.3)
     fig.tight_layout()
@@ -45,7 +43,7 @@ def plot_run(path, title, save_path):
 
 
 def plot_compare(basic_path, adv_path, save_path):
-    """在同一张图上对比 basic vs advanced 的 D_fake 和 G_loss"""
+    """Compare basic vs advanced D_fake and G_loss side-by-side."""
     it_b, dr_b, df_b, g_b = parse_log(basic_path)
     it_a, dr_a, df_a, g_a = parse_log(adv_path)
     fig, axes = plt.subplots(1, 2, figsize=(14, 5))

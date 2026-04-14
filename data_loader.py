@@ -37,11 +37,9 @@ def get_data_loader(data_path, opts):
     if opts.data_preprocess == 'basic':
         train_transform = basic_transform
     elif opts.data_preprocess == 'advanced':
-        # 进阶数据增强: 用于缓解判别器在小数据集上的过拟合
-        # 1) 先 Resize 到稍大尺寸 (1.1 倍), 然后随机裁剪回目标尺寸, 模拟随机平移
-        # 2) 随机水平翻转, 增加样本多样性
-        # 3) 颜色抖动 (亮度/对比度/饱和度) 进一步扩充分布
-        # 4) 最后 ToTensor + Normalize 到 [-1, 1], 与 tanh 输出对齐
+        # Advanced augmentation to mitigate D overfitting on a small dataset:
+        # Resize -> RandomCrop (random translation) -> HFlip -> ColorJitter
+        # -> ToTensor -> Normalize to [-1, 1] (matches tanh output range).
         load_size = int(1.1 * opts.image_size)
         train_transform = transforms.Compose([
             transforms.Resize([load_size, load_size], Image.BICUBIC),
