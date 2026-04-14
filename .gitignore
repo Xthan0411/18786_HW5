@@ -5,3 +5,8 @@ checkpoints_vanilla/
 __pycache__/                                              
 log_*.txt   
 .DS_Store
+*.zip
+report/*.pdf
+report/*.aux
+report/*.log
+report/*.out

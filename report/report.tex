@@ -1,0 +1,213 @@
+\documentclass[11pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{amsmath, amssymb}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{float}
+
+\title{\textbf{18-786 HW5: Generating Cat Images with GANs}}
+\author{YIZHEN XU}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+% ==========================================================
+\section{Part 1: Deep Convolutional GAN (DCGAN)}
+
+A DCGAN is implemented to generate $64\times 64$ Grumpy-Cat images from the
+\texttt{grumpifyBprocessed} dataset (204 images). The generator is built with
+\texttt{Upsample}+\texttt{Conv2d} blocks (the first block uses a direct
+$4\times 4$ convolution to turn the $1\times 1$ noise into a $4\times 4$ feature
+map), and the discriminator is a stack of stride-2 convolutions that compresses
+the image down to a single logit. LSGAN-style mean-square loss is used in the
+training loop.
+
+\subsection{Training Hyperparameters}
+\begin{table}[H]
+\centering
+\begin{tabular}{ll}
+\toprule
+Hyperparameter & Value \\
+\midrule
+Image size & $64\times 64$ \\
+Noise size $|z|$ & 100 \\
+Base conv width (\texttt{conv\_dim}) & 32 \\
+Batch size & 16 \\
+Optimizer & Adam ($\beta_1=0.5,\ \beta_2=0.999$) \\
+Learning rate & $2\times 10^{-4}$ \\
+Loss & LSGAN (mean-squared) \\
+Normalization & InstanceNorm \\
+Epochs & 500 $\Rightarrow$ $\approx$6{,}500 iterations \\
+Sample / checkpoint cadence & every 200 / 400 iter \\
+Random seed & 11 \\
+\bottomrule
+\end{tabular}
+\caption{DCGAN training hyperparameters.}
+\end{table}
+
+\subsection{Data Augmentation}
+Two preprocessing pipelines are compared:
+\begin{itemize}
+    \item \textbf{Basic:} \texttt{Resize(64)} $\rightarrow$ \texttt{ToTensor} $\rightarrow$ \texttt{Normalize}$(0.5,0.5)$.
+    \item \textbf{Advanced:} \texttt{Resize(70)} $\rightarrow$ \texttt{RandomCrop(64)} $\rightarrow$ \texttt{RandomHorizontalFlip} $\rightarrow$ \texttt{ColorJitter}$(0.1,0.1,0.1)$ $\rightarrow$ \texttt{ToTensor} $\rightarrow$ \texttt{Normalize}$(0.5,0.5)$.
+\end{itemize}
+The advanced pipeline introduces random spatial and photometric perturbations,
+which make it much harder for the discriminator to memorize the small training
+set.
+
+% ==========================================================
+\subsection{Generated Samples}
+
+Figure~\ref{fig:basic-samples} and Figure~\ref{fig:advanced-samples} show
+$4\times 4$ sample grids at the beginning (iter 400) and end (iter 6000) of
+training for both pipelines. All grids are generated from the same
+\emph{fixed} noise batch so that differences reflect the state of the generator
+rather than noise variability.
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[t]{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{results/output/vanilla/grumpifyBprocessed_basic/sample-000400.png}
+        \caption{Basic augmentation, iter 400.}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[t]{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{results/output/vanilla/grumpifyBprocessed_basic/sample-006000.png}
+        \caption{Basic augmentation, iter 6000.}
+    \end{subfigure}
+    \caption{Generator samples with \textbf{basic} augmentation. At iter 400 the
+    output is mostly noise; at iter 6000 the generator has collapsed to nearly
+    identical black-and-white cat faces across all 16 grid cells (mode
+    collapse).}
+    \label{fig:basic-samples}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[t]{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{results/output/vanilla/grumpifyBprocessed_advanced/sample-000400.png}
+        \caption{Advanced augmentation, iter 400.}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[t]{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{results/output/vanilla/grumpifyBprocessed_advanced/sample-006000.png}
+        \caption{Advanced augmentation, iter 6000.}
+    \end{subfigure}
+    \caption{Generator samples with \textbf{advanced} augmentation. At iter 400
+    the rough positions of the eyes, nose and mouth are already visible. At
+    iter 6000 the generator produces clearly recognizable Grumpy-Cat faces with
+    distinct ears, eyes and a frowning mouth, and the 16 cells show visibly
+    more variation than the basic run (less mode collapse).}
+    \label{fig:advanced-samples}
+\end{figure}
+
+\paragraph{Visual comparison.}
+Advanced augmentation produces images with (i) \emph{less noise} (edges are
+sharper, background artifacts are reduced), (ii) \emph{less mode collapse}
+(grid cells differ in pose and color), and (iii) \emph{more cat features}
+(Grumpy-Cat-specific fur pattern, ears, eyes and nose are clearly rendered).
+This matches the ``visually better'' criterion specified in the assignment.
+
+% ==========================================================
+\subsection{Training Loss Curves}
+
+Figure~\ref{fig:loss-curves} plots $D_\text{real}$, $D_\text{fake}$ and
+$G_\text{loss}$ (log scale on the $y$-axis) for the two runs.
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[t]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{results/loss_basic.png}
+        \caption{Basic augmentation.}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[t]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{results/loss_advanced.png}
+        \caption{Advanced augmentation.}
+    \end{subfigure}
+    \caption{Training loss curves (log-$y$). The high-frequency oscillation is
+    expected — it reflects the adversarial tug-of-war between $G$ and $D$.}
+    \label{fig:loss-curves}
+\end{figure}
+
+% ==========================================================
+\subsection{Analysis}
+
+\paragraph{Oscillation is a healthy signature.}
+Unlike supervised training, GANs minimize a min–max objective; every step that
+strengthens $D$ forces $G$ to adapt, and vice versa. The losses therefore
+oscillate at high frequency throughout training. Neither run shows divergence
+(no loss explodes) nor collapse (no loss flatlines at zero), so the adversarial
+dynamics themselves are well-behaved.
+
+\paragraph{The key signal: $D_\text{fake}$ behaves differently in the two
+runs.}
+Table~\ref{tab:dfake} summarizes the order of magnitude of $D_\text{fake}$
+through training:
+
+\begin{table}[H]
+\centering
+\begin{tabular}{lcccc}
+\toprule
+ & iter 1000 & iter 2000 & iter 4000 & iter 6000 \\
+\midrule
+$D_\text{fake}$, basic    & 0.021 & 0.003 & 0.0013 & 0.0013 \\
+$D_\text{fake}$, advanced & 0.058 & 0.030 & 0.029  & 0.011 \\
+\bottomrule
+\end{tabular}
+\caption{$D_\text{fake}$ at representative iterations.}
+\label{tab:dfake}
+\end{table}
+
+In the basic run, $D_\text{fake}$ drops by nearly two orders of magnitude; the
+discriminator has effectively memorized the 204 real images and can reject
+every fake sample. Once $D$ is nearly perfect, the gradient that flows back to
+$G$ vanishes and the generator settles on a single low-variance mode — exactly
+the phenomenon observed visually at iter 6000.
+
+In the advanced run, the random crops, flips and color jitter force $D$ to see
+a different version of each real image every iteration. $D$ can no longer
+memorize and is pushed to learn more generalizable features. $D_\text{fake}$
+consequently stays in the $10^{-2}$ range, keeping a non-trivial gradient
+flowing into $G$. The generator keeps improving, and mode collapse is avoided.
+
+\paragraph{$G_\text{loss}$ is similar in both runs, and that is expected.}
+Under the LSGAN objective $G_\text{loss}=\tfrac12\mathbb{E}[(D(G(z))-1)^2]$
+is bounded in $[0, 0.5]$ as long as $D$'s outputs stay in $[0, 1]$. Its
+absolute value is a poor indicator of generator quality; what matters is
+$D_\text{fake}$ together with the visual samples. Both runs sit around
+$G_\text{loss}\approx 0.4\text{--}0.6$, but describe very different
+regimes: in basic, $G$ has collapsed to a point that $D$ can trivially reject;
+in advanced, $G$ genuinely tracks the real distribution.
+
+\paragraph{Practical heuristics confirmed.}
+\begin{itemize}
+    \item $D_\text{real}\approx D_\text{fake}\approx 10^{-2}$ with
+    $G_\text{loss}\in[0.3,0.7]$ is the healthy equilibrium observed in the
+    advanced run.
+    \item A joint decay of both $D_\text{real}$ and $D_\text{fake}$ to
+    $\leq 10^{-3}$ is an early warning of $D$ overfitting and imminent mode
+    collapse, as seen in the basic run.
+\end{itemize}
+
+% ==========================================================
+\subsection{Conclusion for Part 1}
+The DCGAN implementation successfully generates recognizable Grumpy-Cat
+images. On the tiny (204-image) training set, basic preprocessing lets the
+discriminator overfit, leading to mode collapse after a few thousand
+iterations. Advanced data augmentation restores the $G$–$D$ balance: the
+generator produces sharper, more diverse and more cat-like samples at iter
+6000, while the training losses remain in a healthy oscillating regime.
+
+\end{document}
